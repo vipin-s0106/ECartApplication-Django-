@@ -1,0 +1,99 @@
+Create Custom User Model
+1)User
+Name : CharField
+username : CharField
+password : CharField(Password)
+Email : CharField
+Mobile : IntegerField
+birthdate : DateField
+
+
+1.1)Address
+User(ForiegnKey)
+Name : CharField
+StreetAddress : CharField
+State : DropDown
+PinCode : IntegerField
+
+2)Product
+name : CharField
+price :FloatField
+offer : FloatField (This Product having maximum offer)
+EMIDiscount : IntegerField
+CardDiscount : IntergerField
+AvaialbleStock : IntegerField
+visited : IntegerField(So when Next user come can show that this Product mostly Visited)
+like : IntegerField
+dislike : IntegerField
+logo : ImageField(default=default.jpg)
+
+
+
+3)ProductInfo
+product(Foriegn)
+user(Foreign)
+reviews : CharField
+Ratings : IntegerField
+product_image : ImageField
+
+
+
+4)Clothing
+product(Foreign Key)
+Catgory : CharField
+Subcategory : CharField
+Description : charField
+Gender : CharField
+brand : CharField
+size : CharField
+color : CharField
+
+5) Footwear
+product(Foreign Key)
+Catgory : CharField
+SubCategor : CharField
+Description : charField
+Gender : CharField
+brand : CharField
+size : CharField
+color : CharField
+
+6)Accessories
+product(Foreign Key)
+Category : CharField
+SubCategor : CharField
+Description : CharField
+Gender : RadioField
+brand : CharField
+
+
+7)Electronics
+product(Foreign Key)
+Catgory : CharField
+SubCategor : CharField
+Description : charField
+Gender : CharField
+brand : CharField
+size : CharField
+os: CharField
+ram: DropDown
+storage DropDown
+camera : DropDown
+
+8)Mycart
+User(ForeignKey)
+Product(ForeignKey)
+
+
+9)Payement
+User(Foreign)
+Payementmode(Dropdwon)
+CardNo :
+PaytmNo :
+UPICode :
+
+
+10)Wishlist
+User(ForeignKey)
+Product(ForeignKey)
+

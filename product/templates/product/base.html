@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ECart{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'product/style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<nav class="navbar navbar-default navbar-fixed-top" >
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>                        
+	      </button>
+	      <a href=""#><img src="{% static 'product/images/ECartlogo.png' %}" style="margin-left:60px" width="150" height="50" /></a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	    	<div class=search-container">
+		      <form class="navbar-form navbar-left" role="search" method="post" action="#">
+		                <div class="form-group">
+		                    <input type="text" style="padding: 6px;margin-top: 5px;font-size: 17px;border: 1px solid grey;" placeholder="Search for products and more .." class="form-control" name="q" value="" size=50>
+		                </div>
+		                <button type="submit" style="float: right;padding: 6px 10px;margin-top: 5px;margin-right: 16px;background: #ddd;font-size: 16px;border: none;cursor: pointer;color:#0066ff;background-color:white"><span class="glyphicon glyphicon-search"></span></button>
+		      </form>
+		    </div>
+	      <ul class="nav navbar-nav navbar-right" style="margin-right:20px">
+	      	 {% if request.user.is_authenticated %}
+		        <li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px">{{ request.user.name }}</a></li>
+		        <li><a href="#Wishlist"><span class="glyphicon glyphicon-heart" style="font-size: 20px;color:red;margin-top:4px"></span><span class="badge badge-danger" style="background-color:grey;font-size:10px">1</span></a></li>
+		     	<li><a href="#Cart"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px;color:#0066ff;margin-top:4px"></span><span class="badge badge-danger" style="background-color:red;font-size:10px">1</span></a></li>
+		        <li><a href="#logout"><span class="glyphicon glyphicon-off" style="font-size: 20px;color:#0066ff;margin-top:4px"></span></a></li>   
+		     {% else %}		        
+		     	<li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px">Login & SignUp</a></li>
+		     	<li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px">More</a></li>
+		     {% endif %}
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	<hr>
+	
+	
+	<nav class="navbar" style="margin-bottom:0px">
+	  <div class="container-fluid">
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav" style="margin-top:8px;margin-bottom:0px;margin-left:30px">
+		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Electronics</a></li>
+		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">TVs & Appliances</a></li>
+		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Men</a></li>
+		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Women</a></li>
+		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Baby & Kids</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+{% block body %}
+{% endblock %}
+</body>
+</html>
