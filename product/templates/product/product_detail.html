@@ -1,0 +1,175 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block cssloading %}
+<style>
+	.col-lg-5 .pic-1{opacity:1;top:0;left:20;transition:all .3s ease-out 0s}
+	.col-lg-5 .pic-1{opacity:1}
+	.col-lg-5 .pic-2{opacity:0;position:absolute;top:0;left:20;transition:all .3s ease-out 0s}
+	.col-lg-5 .pic-2{opacity:1}
+	
+	.gold{
+		color:#FFBF00;
+	}
+	.product-rating{
+		font-size: 20px;
+		margin-bottom: 25px;
+	}
+	.product-title{
+		font-size: 20px;
+	}
+	
+	.product-desc{
+		font-size:14px;
+	}
+	
+	.product-price{
+		font-size: 18px;
+	}
+	
+	.product-stock{
+		color: #74DF00;
+		font-size: 15px;
+		margin-top: 5px;
+	}
+	
+	.product-card-offer{
+		margin-top: 5px;
+	}
+	
+	.product-emi-offer{
+		margin-top: 5px;
+	}
+	.product-info{
+		margin-top: 50px;
+	}
+	
+	.content-wrapper {
+		max-width:1140px;
+		background: #fff;
+		margin: 0 auto;
+		margin-top:25px;
+		margin-bottom: 10px;
+		border: 0px;
+		border-radius: 0px;
+	}
+	
+	.container-fluid{
+		max-width: 1140px;
+		margin: 0 auto;
+	}
+	
+	.view-wrapper{
+		float: right;
+		max-width: 70%;
+		margin-top: 25px;
+	}
+	.container{
+		padding-left: 0px;
+		padding-right: 0px;
+		max-width: 100%;
+	}
+	
+	.col-lg-5 .social{width:150px;padding:0;margin:0;list-style:none;opacity:0;transform:translateY(-50%) translateX(-50%);position:absolute;top:60%;left:50%;z-index:1;transition:all .3s ease 0s}
+	.col-lg-5 .social{opacity:1;top:50%}
+	.col-lg-5 .social li{display:inline-block}
+	.col-lg-5 .social li a{color:#fff;background-color:#333;font-size:16px;line-height:40px;text-align:center;height:40px;width:40px;margin:0 2px;display:block;position:relative;transition:all .3s ease-in-out}
+	.col-lg-5 .social li a:hover{color:#fff;background-color:#ef5777}
+	.col-lg-5 .social li a:after,.product-grid .social li a:before{content:attr(data-tip);color:#fff;background-color:#000;font-size:12px;letter-spacing:1px;line-height:20px;padding:1px 5px;white-space:nowrap;opacity:0;transform:translateX(-50%);position:absolute;left:50%;top:-30px}
+	.col-lg-5 .social li a:after{content:'';height:15px;width:15px;border-radius:0;transform:translateX(-50%) rotate(45deg);top:-20px;z-index:-1}
+	
+</style>
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+	    <div class="content-wrapper">	
+			<div class="item-container">	
+				<div class="container">	
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="product col-md-3 service-image-left">
+								<center>
+									<img class="pic-1" width="350" height="400" src="{{ product.product.product_image1.url }}">
+			                        <img class="pic-2" width="350" height="400" src="{{ product.product.product_image2.url }}">
+								</center>
+								<ul class="social">
+			                        <li style="margin-left:180px"><a href="#" data-tip="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
+			                    </ul>
+							</div>
+						</div>
+					
+						<div class="col-md-6">
+							<div class="product-title">{{ product.product.name }}</div>
+							<div class="product-desc">The Corsair Gaming Series GS600 is the ideal price/performance choice for mid-spec gaming PC</div>
+							<div class="product-rating">
+								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
+								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
+								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
+								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
+								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
+							</div>
+							{% if product.product.offer > 0 %}
+			                    <div class="product-price">र{{ product.product.price|get_discounted_price:product.product.offer }}
+			                    </div>
+				            {% else %}
+				                <div class="product-price">र{{ product.product.price|floatformat }}</div>
+				            {% endif %}
+				            {% if product.product.avaiable_stock > 0 %}
+								<div class="product-stock">In Stock</div>
+							{% else %}
+								<div style="color:red">Out of Stock</div>
+							{% endif %}
+							<div class="btn-group cart">
+								<button type="button" class="btn btn-success">
+									Add to cart 
+								</button>
+							</div>
+							<div class="btn-group wishlist">
+								<button type="button" class="btn btn-danger">
+									Add to wishlist 
+								</button>
+							</div>
+						</div>
+					</div>	
+				</div> 
+			</div>
+			<div class="container-fluid">		
+				<div class="col-md-12 product-info">
+						<ul id="myTab" class="nav nav-tabs nav_tabs">
+							
+							<li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
+							<li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
+							
+						</ul>
+					<div id="myTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="service-one">
+							 
+								<section class="container product-info">
+									The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.
+	
+									<h3>Corsair Gaming Series GS600 Features:</h3>
+									<li>It supports the latest ATX12V v2.3 standard and is backward compatible with ATX12V 2.2 and ATX12V 2.01 systems</li>
+									<li>An ultra-quiet 140mm double ball-bearing fan delivers great airflow at an very low noise level by varying fan speed in response to temperature</li>
+									<li>80Plus certified to deliver 80% efficiency or higher at normal load conditions (20% to 100% load)</li>
+									<li>0.99 Active Power Factor Correction provides clean and reliable power</li>
+									<li>Universal AC input from 90~264V — no more hassle of flipping that tiny red switch to select the voltage input!</li>
+									<li>Extra long fully-sleeved cables support full tower chassis</li>
+									<li>A three year warranty and lifetime access to Corsair’s legendary technical support and customer service</li>
+									<li>Over Current/Voltage/Power Protection, Under Voltage Protection and Short Circuit Protection provide complete component safety</li>
+									<li>Dimensions: 150mm(W) x 86mm(H) x 160mm(L)</li>
+									<li>MTBF: 100,000 hours</li>
+									<li>Safety Approvals: UL, CUL, CE, CB, FCC Class B, TÜV, CCC, C-tick</li>
+								</section>
+											  
+							</div>
+							<div class="tab-pane fade" id="service-three">
+														
+							</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 #Creating Custom User Model here For Extra Fields Name,Mobile,birthdate
 class User(AbstractUser):
     name = models.CharField(('Name'),max_length=100)
-    mobile = models.IntegerField(('Mobile No'),null=True,unique=True,
+    mobile = models.IntegerField(('Mobile'),null=True,unique=True,
                                  help_text=('Exclude +91 Extension'))
     birthdate = models.DateField(('Birth Date'),null=True,
                                  help_text=('Enter in "YYYY-MM-DD" format'),)

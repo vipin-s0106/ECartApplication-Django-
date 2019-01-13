@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" style="background-image: linear-gradient(#91EAE4,#7F7FD5, #86A8E7);height: 100%;background-repeat: no-repeat;">
+<head>
+    <meta name="viewport" content="width=device-width,intial-scale=1">
+    <title>{% block title %}ECart{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    {% block cssloading %}
+    {% endblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  	
+</head>
+<body style="background-image: linear-gradient(#91EAE4,#7F7FD5, #86A8E7);height: 100%;background-repeat: no-repeat;">
+<div style="display: flex; justify-content: center;">
+  <a href="{% url 'product:home' %}"><img src="{% static 'product/images/ECartlogo.png' %}" width="150" height="50" 40px;" style="margin-top:20px"/></a>
+</div>
+<div class="container" style="width:400px;margin-top:40px">
+	<div class="modal-header" style="background-color:#5cb85c;color:white !important;text-align:center;font-size:30px">
+		<img src="{% static 'user/images/userlogo.png' %}" class="img-circle" width="100" height="100" style="background-color:#5cb85c;border-color:#5cb85c;">
+	</div>
+	<main style="background-color:white">
+		<div class="container" style="width:375px">
+			{% if messages %}
+			        	{% for message in messages %}
+			        		<div class="alert alert-{{ message.tags }}" style="color:red">
+			        			<p align="middle">{{ message }}</p>
+			        		</div>
+			        	{% endfor %}
+			{% endif %}
+		</div>
+	</main>
+	<div class="modal-body" style="padding:40px 50px;background-color:white">
+		<form role="form" action="#" method="POST">
+		{% csrf_token %}
+			<div class="form-group">
+				<label for="usrname"><span class="glyphicon glyphicon-user"></span>Username</label>
+				<input type="text" class="form-control" id="username" placeholder="Enter Username.." name="username">
+			</div>
+			<div class="form-group">
+				<label for="psw"><span class="glyphicon glyphicon-eye-open"></span>Password</label>
+				<input type="password" class="form-control" id="password" placeholder="Enter Password.." name="password">
+			</div>
+			<div class="checkbox">
+				<label ><input type="checkbox" value="" checked>Remember me</label>
+			</div>
+				<button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span>&nbsp Login</button>
+		</form>
+	</div>
+	<div class="modal-footer" style="background-color:#f9f9f9;">
+		<p >Not a member? <a href="#" id="myBtn1">Sign Up</a></p>
+		<p>Forgot <a href="#">Password</a></p>
+	</div> 
+</div>
+		
+		
+<!-- Register Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+		<div class="modal-dialog" style="width:450px">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color:#5cb85c;color:white !important;text-align:center;font-size:25px">
+				<button type="button" class="close" data-dismiss="modal" style="background-color:#5cb85c;color:white !impotant;text-align:center;font-size:30px;">&times;</button>
+				<img src="{% static 'user/images/adduser.png' %}" class="img-circle" width="100" height="100" style="margin-left:20px;background-color:#5cb85c;border-color:#5cb85c;">
+			</div>
+			<div class="modal-body" style="padding:40px 50px;margin-top:0px">
+				<form role="form" action="{% url 'user:register' %}" method="POST">
+					{% csrf_token %}
+					{% for field in form %}
+					    <div class="form-group">
+					        <div class="col-sm-offset-2 col-sm-10">
+					            <span class="text-danger small">{{ field.errors }}</span>
+					        </div>
+					        <label style="margin-bottom:0px">{{ field.label_tag }}</label>
+					        {{ field }}
+					    </div>
+					{% endfor %}
+					<button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-plus"></span>&nbsp Register</button>
+				</form>
+				<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal" style="margin-top:10px"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+				<p style="margin-top:16px;margin-left:192px">Already Register? <a href="#" data-dismiss="modal" style="margin-top:10px">SignIn</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+	$("#myBtn1").click(function(){
+		$("#myModal1").modal();
+	});
+});
+</script>
+</body>
+</html>

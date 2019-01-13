@@ -6,14 +6,15 @@ import datetime
 class Product(models.Model):
     name = models.CharField(max_length = 150)
     price = models.FloatField(null=False)
-    offer = models.FloatField(default=0)
+    offer = models.IntegerField(default=0)
     emi_discount = models.FloatField(default=0)
     card_discount = models.FloatField(default=0)
     avaiable_stock = models.IntegerField(default=10)
     visited = models.IntegerField(default=0)
     like = models.IntegerField(default=0)
     dislike = models.IntegerField(default=0)
-    logo = models.ImageField(default='deafult.jpg')
+    product_image1 = models.ImageField(null=True,blank=True)
+    product_image2 = models.ImageField(null=True,blank=True)
     
     def __str__(self):
         return "ID : "+str(self.pk)+" -- "+self.name
@@ -24,36 +25,12 @@ class ProductInfo(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     reviews = models.TextField(null=True,blank=True)
     rating = models.IntegerField(null=True,blank=True,help_text=('Please give rating out of 5'))
-    product_image = models.ImageField(null=True,blank=True)
+    review_image2 = models.ImageField(null=True,blank=True)
+    
     
     def __str__(self):
         return self.product.name+" -- "+self.user.name
     
-    
-class Mycart(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.user.name+" -- "+self.product.name
-    
-class Wishlist(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.user.name+" -- "+self.product.name
-    
-    
-class MyOrder(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    order_date = models.CharField(max_length=15,default=datetime.datetime.now().strftime('%Y-%m-%d'))
-    deliver_date = models.CharField(max_length=15)
-    unit_price = models.FloatField()
-    status = models.CharField(max_length=50)
-    def __str__(self):
-        return self.user.name+" -- "+self.product.name
     
 class Clothing(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null=False)

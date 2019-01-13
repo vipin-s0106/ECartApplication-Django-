@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,intial-scale=1" charset="UTF-8">
     <title>{% block title %}ECart{% endblock %}</title>
     {% load staticfiles %}
+    {% load app_filter %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-  	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{% static 'product/style.css' %}"/>
+    {% block cssloading %}
+    {% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  	
+  	<!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+  	
 </head>
 <body>
-
-	<nav class="navbar navbar-default navbar-fixed-top" >
+<header>
+	<nav class="navbar navbar-fixed-top" style="background-color:#3A5FCD" >
 	  <div class="container-fluid">
 	    <div class="navbar-header">
 	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -21,26 +27,27 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>                        
 	      </button>
-	      <a href=""#><img src="{% static 'product/images/ECartlogo.png' %}" style="margin-left:60px" width="150" height="50" /></a>
+	      <a href="{% url 'product:home' %}"><img src="{% static 'product/images/ECartlogo.png' %}" style="margin-left:60px" width="150" height="50" /></a>
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	    	<div class=search-container">
 		      <form class="navbar-form navbar-left" role="search" method="post" action="#">
+		      			{% csrf_token %}
 		                <div class="form-group">
 		                    <input type="text" style="padding: 6px;margin-top: 5px;font-size: 17px;border: 1px solid grey;" placeholder="Search for products and more .." class="form-control" name="q" value="" size=50>
 		                </div>
-		                <button type="submit" style="float: right;padding: 6px 10px;margin-top: 5px;margin-right: 16px;background: #ddd;font-size: 16px;border: none;cursor: pointer;color:#0066ff;background-color:white"><span class="glyphicon glyphicon-search"></span></button>
+		                <button type="submit" style="float: right;padding: 6px 10px;margin-top: 5.5px;margin-right: 16px;background: #ddd;font-size: 12px;border: none;cursor: pointer;color:#0066ff;background-color:white"><span class="glyphicon glyphicon-search" style="font-size:15px"></span></button>
 		      </form>
 		    </div>
 	      <ul class="nav navbar-nav navbar-right" style="margin-right:20px">
 	      	 {% if request.user.is_authenticated %}
-		        <li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px">{{ request.user.name }}</a></li>
-		        <li><a href="#Wishlist"><span class="glyphicon glyphicon-heart" style="font-size: 20px;color:red;margin-top:4px"></span><span class="badge badge-danger" style="background-color:grey;font-size:10px">1</span></a></li>
-		     	<li><a href="#Cart"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px;color:#0066ff;margin-top:4px"></span><span class="badge badge-danger" style="background-color:red;font-size:10px">1</span></a></li>
-		        <li><a href="#logout"><span class="glyphicon glyphicon-off" style="font-size: 20px;color:#0066ff;margin-top:4px"></span></a></li>   
-		     {% else %}		        
-		     	<li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px">Login & SignUp</a></li>
-		     	<li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px">More</a></li>
+		        <li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px;color:white">{{ request.user.name }}</a></li>
+		     	<li><a href="#Wishlist"><span class="glyphicon glyphicon-heart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_wishlist_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_wishlist_value }}</span>{% endif %}</a></li>
+		     	<li><a href="#Cart"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_cart_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_cart_value }}</span>{% endif %}</a></li>
+		        <li><a href="{% url 'user:user_logout' %}"><span class="glyphicon glyphicon-off" style="font-size: 20px;color:white;margin-top:4px"></span></a></li>    
+		     {% else %}	     
+		     	<li><a href="{% url 'user:user_login' %}" id="myBtn" style="font-size:17px;font-weight: bold;margin-top:5px;font-family:Lucida Sans Unicode;color:white">Login & SignUp</a></li>
+		     	<li><a href="#" style="font-size:17px;font-weight: bold;margin-top:5px;font-family:Lucida Sans Unicode;color:white">More</a></li>
 		     {% endif %}
 	      </ul>
 	    </div>
@@ -49,20 +56,31 @@
 	<hr>
 	
 	
-	<nav class="navbar" style="margin-bottom:0px">
+	<nav class="navbar" style="margin-bottom:0px;height:18px;background-color:white">
 	  <div class="container-fluid">
 	    <div class="collapse navbar-collapse" id="myNavbar">
-	      <ul class="nav navbar-nav" style="margin-top:8px;margin-bottom:0px;margin-left:30px">
-		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Electronics</a></li>
-		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">TVs & Appliances</a></li>
-		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Men</a></li>
-		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Women</a></li>
-		        <li><a href="#" style="color:black;font-size:15px;margin-top:5px;font-weight: 650">Baby & Kids</a></li>
+	      <ul class="nav navbar-nav" style="margin-top:10px;margin-bottom:0px;margin-left:30px">
+		        <li ><a href="#" style="font-size:15px;font-weight:650">Electronics</a></li>
+		        <li ><a href="#" style="font-size:15px;font-weight:650">TVs & Appliances</a></li>
+		        <li ><a href="{% url 'product:mens_product' %}" style="font-size:15px;font-weight:650">Men</a></li>
+		        <li ><a href="#" style="font-size:15px;font-weight:650">Women</a></li>
+		        <li ><a href="#" style="font-size:15px;font-weight:650">Baby & Kids</a></li>
 	      </ul>
 	    </div>
 	  </div>
 	</nav>
-
+</header>
+<main>
+<div class="container">
+	{% if messages %}
+	        	{% for message in messages %}
+	        		<div class="alert alert-{{ message.tags }}" style="color:red">
+			        	<p align="middle">{{ message }}</p>
+			        </div>
+	        	{% endfor %}
+	{% endif %}
+</div>
+</main>
 {% block body %}
 {% endblock %}
 </body>
