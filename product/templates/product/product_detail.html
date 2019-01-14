@@ -54,21 +54,13 @@
 		border-radius: 0px;
 	}
 	
-	.container-fluid{
-		max-width: 1140px;
-		margin: 0 auto;
-	}
 	
 	.view-wrapper{
 		float: right;
 		max-width: 70%;
 		margin-top: 25px;
 	}
-	.container{
-		padding-left: 0px;
-		padding-right: 0px;
-		max-width: 100%;
-	}
+
 	
 	.col-lg-5 .social{width:150px;padding:0;margin:0;list-style:none;opacity:0;transform:translateY(-50%) translateX(-50%);position:absolute;top:60%;left:50%;z-index:1;transition:all .3s ease 0s}
 	.col-lg-5 .social{opacity:1;top:50%}
@@ -91,7 +83,7 @@
 							<div class="product col-md-3 service-image-left">
 								<center>
 									<img class="pic-1" width="350" height="400" src="{{ product.product.product_image1.url }}">
-			                        <img class="pic-2" width="350" height="400" src="{{ product.product.product_image2.url }}">
+			                        <!--  <img class="pic-2" width="350" height="400" src="{{ product.product.product_image2.url }}">-->
 								</center>
 								<ul class="social">
 			                        <li style="margin-left:180px"><a href="#" data-tip="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
@@ -116,18 +108,22 @@
 				                <div class="product-price">र{{ product.product.price|floatformat }}</div>
 				            {% endif %}
 				            {% if product.product.avaiable_stock > 0 %}
-								<div class="product-stock">In Stock</div>
+								<div class="product-stock" style="color:green">In Stock</div>
 							{% else %}
 								<div style="color:red">Out of Stock</div>
 							{% endif %}
+							<br>
+							<div class="product-card-offer"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp&nbsp Bank Offer Extra {{ product.product.card_discount }}% off with Axis Bank Buzz Credit Card</div>
+							<div class="product-emi-offer"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp&nbsp No Cost EMI {{ product.product.emi_discount }}% discount on Bajaj Finserv EMI Card on cart value</div>
+							<hr>
 							<div class="btn-group cart">
-								<button type="button" class="btn btn-success">
-									Add to cart 
+								<button type="button" class="btn btn-lg" style="background-color:#F5B60F;color:white">
+									<span class="glyphicon glyphicon-shopping-cart" style="color:white"></span>&nbsp ADD TO CART 
 								</button>
 							</div>
 							<div class="btn-group wishlist">
-								<button type="button" class="btn btn-danger">
-									Add to wishlist 
+								<button type="button" class="btn btn-lg" style="background-color:#F55B0F;color:white">
+									<span class="glyphicon glyphicon-flash" style="color:white"></span>&nbsp BUY NOW 
 								</button>
 							</div>
 						</div>
