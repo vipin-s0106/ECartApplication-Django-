@@ -1,0 +1,92 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block cssloading %}
+<style>
+
+</style>
+{% endblock %}
+{% block body %}
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for product in products_in_cart %}
+	                    <tr>
+	                        <td class="col-sm-8 col-md-6">
+	                        <div class="media">
+	                            <a class="thumbnail pull-left" href="{% url 'product:product_detail' product.product.id %}"> <img class="media-object" src="{{ product.product.product_image1.url }}" style="width: 72px; height: 72px;"> </a>
+	                            <div class="media-body">
+	                                <h4 class="media-heading" style="margin-left:20px"><a href="{% url 'product:product_detail' product.product.id %}">{{ product.product.name }}</a></h4>
+	                                <div class="product-card-offer" style="margin-left:20px"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp Extra {{ product.product.card_discount }}% off with Axis Bank Buzz Credit Card</div>
+									<div class="product-emi-offer" style="margin-left:20px"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp EMI {{ product.product.emi_discount }}% discount on Bajaj Finserv EMI Card</div>
+	                            </div>
+	                        </div></td>
+	                        <td class="col-sm-1 col-md-1" style="text-align: center">
+	                        <p><strong>{% for key, value in quantity_list.items %}{% if key == product.product.id %}{{ value }}{% endif %}{% endfor %}</strong></p>
+	                        </td>
+	                        <td class="col-sm-1 col-md-1 text-center">
+		                        {% if product.product.offer > 0 %}
+				                    <div class="product-price"><strong>र{{ product.product.price|get_discounted_price:product.product.offer }}</strong>
+				                    </div>
+					            {% else %}
+					                <div class="product-price"><strong>र{{ product.product.price|floatformat }}</strong></div>
+					            {% endif %}
+				            </td>
+	                        <td class="col-sm-1 col-md-1 text-center"><strong>र{% for key, value in quantity_list.items %}{% if key == product.product.id %}{{ product.product.id|get_quantity_total:value }}{% endif %}{% endfor %}</strong></td>
+	                        <td class="col-sm-1 col-md-1">
+	                        </td>
+	                    </tr>
+	                {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h5>Subtotal</h5></td>
+                        <td class="text-right"><h5><strong>र{{ products_in_cart|get_sub_total:quantity_list }}</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h5>Estimated shipping</h5></td>
+                        <td class="text-right"><h5><strong>र60</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3><strong>र{{ request.session.total_amount }}</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        <a href="{% url 'usercart:cart_view' %}" type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span> Cancel
+                        </a></td>
+                        <td>
+                        <a href="#" type="button" class="btn btn-success">
+                            Pay now <span class="glyphicon glyphicon-ok"></span>
+                        </a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

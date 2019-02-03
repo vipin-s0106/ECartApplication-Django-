@@ -85,14 +85,6 @@ User(ForeignKey)
 Product(ForeignKey)
 
 
-9)Payement
-User(Foreign)
-Payementmode(Dropdwon)
-CardNo :
-PaytmNo :
-UPICode :
-
-
 10)Wishlist
 User(ForeignKey)
 Product(ForeignKey)

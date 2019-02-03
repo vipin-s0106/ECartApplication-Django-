@@ -1,0 +1,219 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block cssloading %}
+<style>
+	h3.h3{text-align:center;margin:1em;text-transform:capitalize;font-size:1.7em;}
+	.product-grid{font-family:Raleway,sans-serif;text-align:center;padding:0 0 72px;border:1px solid rgba(0,0,0,.1);overflow:hidden;position:relative;z-index:1;border-color:white}
+	.product-grid .product-image a{display:block}
+	.product-grid .pic-1{opacity:1;top:0;left:0;transition:all .3s ease-out 0s}
+	.product-grid:hover .pic-1{opacity:1}
+	.product-grid .pic-2{opacity:0;position:absolute;top:0;left:0;transition:all .3s ease-out 0s}
+	.product-grid:hover .pic-2{opacity:1}
+	.product-grid .social{width:150px;padding:0;margin:0;list-style:none;opacity:0;transform:translateY(-50%) translateX(-50%);position:absolute;top:60%;left:50%;z-index:1;transition:all .3s ease 0s}
+	.product-grid:hover .social{opacity:1;top:50%}
+	.product-grid .social li{display:inline-block}
+	.product-grid .social li a{color:#fff;background-color:#333;font-size:16px;line-height:40px;text-align:center;height:40px;width:40px;margin:0 2px;display:block;position:relative;transition:all .3s ease-in-out}
+	.product-grid .social li a:hover{color:#fff;background-color:#ef5777}
+	.product-grid .social li a:after,.product-grid .social li a:before{content:attr(data-tip);color:#fff;background-color:#000;font-size:12px;letter-spacing:1px;line-height:20px;padding:1px 5px;white-space:nowrap;opacity:0;transform:translateX(-50%);position:absolute;left:50%;top:-30px}
+	.product-grid .social li a:after{content:'';height:15px;width:15px;border-radius:0;transform:translateX(-50%) rotate(45deg);top:-20px;z-index:-1}
+	.product-grid .social li a:hover:after,.product-grid .social li a:hover:before{opacity:1}
+	.product-grid .product-discount-label,.product-grid .product-new-label{color:#fff;background-color:#ef5777;font-size:12px;text-transform:uppercase;padding:2px 7px;display:block;position:absolute;top:10px;left:0}
+	.product-grid .product-discount-label{background-color:#333;left:auto;right:0}
+	.product-grid .rating{color:#FFD200;font-size:12px;padding:12px 0 0;margin:0;list-style:none;position:relative;z-index:-1}
+	.product-grid .rating li.disable{color:rgba(0,0,0,.2)}
+	.product-grid .product-content{background-color:#fff;text-align:center;padding:12px 0;margin:0 auto;position:absolute;left:0;right:0;bottom:-27px;z-index:1;transition:all .3s}
+	.product-grid:hover .product-content{bottom:0}
+	.product-grid .title{font-size:13px;font-weight:400;letter-spacing:.5px;text-transform:capitalize;margin:0 0 10px;transition:all .3s ease 0s}
+	.product-grid .title a{color:#828282}
+	.product-grid .title a:hover,.product-grid:hover .title a{color:#ef5777}
+	.product-grid .price{color:#333;font-size:14px;font-family:Montserrat,sans-serif;font-weight:700;letter-spacing:.6px;margin-bottom:8px;text-align:center;transition:all .3s}
+	.product-grid .price span{color:#999;font-size:13px;font-weight:400;text-decoration:line-through;margin-left:3px;display:inline-block}
+	.product-grid .add-to-cart{color:#000;font-size:13px;font-weight:600}
+	@media only screen and (max-width:990px){.product-grid{margin-bottom:30px}
+	}
+	
+	.wrapper {
+	    display: flex;
+	    align-items: stretch;
+	}
+
+	#sidebar {
+	    min-width: 250px;
+	    max-width: 250px;
+	    min-height: 100vh;
+	    background: #F3F2F2;
+	    color: black;
+	    transition: all 0.3s;
+	}
+	
+	#sidebar.active {
+	    margin-left: -250px;
+	}
+	a[data-toggle="collapse"] {
+	    position: relative;
+	}
+	
+	.dropdown-toggle::after {
+	    display: block;
+	    position: absolute;
+	    top: 50%;
+	    right: 20px;
+	    transform: translateY(-50%);
+	}
+	@media (max-width: 768px) {
+	    #sidebar {
+	        margin-left: -250px;
+	    }
+	    #sidebar.active {
+	        margin-left: 0;
+	    }
+	}
+	
+	body {
+	    font-family: 'Poppins', sans-serif;
+	    background: white;
+	}
+	
+	#sidebar a, a:hover, a:focus {
+	    color: inherit;
+	    text-decoration: none;
+	    transition: all 0.3s;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3 style="margin-left:10px;font-size:30px;color:#1C8C88"><span class="glyphicon glyphicon-plus" style="font-size:20px"></span>&nbspCategories</h3>
+        </div>
+		<hr style="border-color:#1C8C88;margin:0px 10px 0px 10px">
+		<br>
+        <ul class="list-unstyled components" style="margin-left:10px">
+            <li>
+                <a href="{% url 'product:tv_appliance_product' 'Television' %}" style="font-size:16px">Television</a>
+            </li>
+            <li>
+                <a href="{% url 'product:tv_appliance_product' 'Speakers' %}" style="font-size:16px">Speakers and HomeTheaters</a>
+            </li>
+            <li>
+                <a href="{% url 'product:tv_appliance_product' 'MicrowaveIron' %}" style="font-size:16px">Microwave & Iron</a>
+            </li>
+            <li>
+                <a href="{% url 'product:tv_appliance_product' 'Refridgerator' %}" style="font-size:16px">Refridgerator</a>
+            </li>
+            <li>
+                <a href="{% url 'product:tv_appliance_product' 'Furniture' %}" style="font-size:16px">Furniture</a>
+            </li>
+        </ul>
+        <br>
+        <br>
+        <form action="#" method="POST" role="form">
+        	{% csrf_token %}
+        	<h1 style="margin-left:10px;font-size:20px;font-weight:bold;color:#1C8C88"><span class="glyphicon glyphicon-pencil" style="font-size:20px"></span>&nbspFilter</h1>
+        	<hr style="border-color:#1C8C88;margin:0px 10px 0px 10px">
+        	<br>
+        	<div>
+        		<p style="margin-left:10px">Brand</p>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Dell">LG</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Acer">Panasonic</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Lenevo">Sansui</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Samsung">Samsung</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="MI">MI</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Oneplus+">Philips</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Oneplus+">iball</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Oneplus+">Boat</label>
+        		</div>
+        		<div class="checkbox" style="margin-left:25px">
+        			<label><input type="checkbox" name="brand" value="Oneplus+">Intex</label>
+        		</div>
+        	</div>
+        	<button type="submit" class="btn btn-md" style="background-color:#F55B0F;color:white;margin-left:10px;font-weight:bold;margin-top:10px;margin-bottom:10px">
+        		<span class="glyphicon glyphicon-ok" style="color:white"></span>&nbsp Filters
+        	</button>
+        </form>
+    </nav>
+
+    <!-- Page Content  -->
+    <div class="container" style="margin-left:20px">
+
+		 <br>
+         <button type="button" id="sidebarCollapse" class="btn btn-info">
+             <i class="fas fa-align-left"></i>
+             <span>Select Categories</span>
+         </button>
+		 <p style="display:inline-block;margin-left:15px;font-weight:bold;font-size:18px0">Home Appliances (Showing {{ products.count }} products)</p>
+    	 <br>
+    	 <br>
+    	 <div class="row">
+    	 		{% for product in products %}
+    	 			<div class="col-md-3" style="margin-top:15px">
+			            <div class="product-grid" >
+			                <div class="product-image">
+			                    <a href="{% url 'product:product_detail' product.product.id %}">
+			                        <img class="pic-1" width="250" height="300" src="{{ product.product.product_image1.url }}">
+			                        <img class="pic-2" width="250" height="300" src="{{ product.product.product_image2.url }}">
+			                    </a>
+			                    <ul class="social">
+			                        <li><a href="{% url 'product:product_detail' product.product.id %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+			                        <li><a href="{% url 'usercart:add_to_wishlist' product.product.id %}" data-tip="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
+			                        <li><a href="{% url 'usercart:add_to_cart' product.product.id %}" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+			                    </ul>
+			                    {% if product.product.offer > 0 %}
+				                    <span class="product-new-label">Offer</span>
+				                    <span class="product-discount-label">{{ product.product.offer }} %</span>
+				                {% endif %}
+			                </div>
+			            
+			                <div class="product-content">
+			                    <h3 class="title"><a href="#">{{ product.product.name }}</a></h3>
+			                    {% if product.product.offer > 0 %}
+				                    <div class="price">Rs. {{ product.product.price|get_discounted_price:product.product.offer }}
+				                        <span>Rs. {{ product.product.price }}</span>
+				                    </div>
+				                {% else %}
+				                	<div class="price">Rs. {{ product.product.price|floatformat }}</div>
+				                {% endif %}
+			                    <a href="{% url 'usercart:add_to_wishlist' product.product.id %}"><i class="fa fa-heart" style="color:red"></i>&nbspAdd To Wishlist</a>
+			                </div>
+			            </div>
+			        </div>
+    	 		{% endfor %}
+    	 </div>
+    </div>
+</div>
+
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>    
+
+{% endblock %}

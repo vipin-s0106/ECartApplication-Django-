@@ -4,9 +4,9 @@
 {% block cssloading %}
 <style>
 	.col-lg-5 .pic-1{opacity:1;top:0;left:20;transition:all .3s ease-out 0s}
-	.col-lg-5 .pic-1{opacity:1}
+	.col-lg-5:hover .pic-1{opacity:1}
 	.col-lg-5 .pic-2{opacity:0;position:absolute;top:0;left:20;transition:all .3s ease-out 0s}
-	.col-lg-5 .pic-2{opacity:1}
+	.col-lg-5:hover .pic-2{opacity:1}
 	
 	.gold{
 		color:#FFBF00;
@@ -25,6 +25,7 @@
 	
 	.product-price{
 		font-size: 18px;
+		color:#EE1682;
 	}
 	
 	.product-stock{
@@ -70,6 +71,53 @@
 	.col-lg-5 .social li a:after,.product-grid .social li a:before{content:attr(data-tip);color:#fff;background-color:#000;font-size:12px;letter-spacing:1px;line-height:20px;padding:1px 5px;white-space:nowrap;opacity:0;transform:translateX(-50%);position:absolute;left:50%;top:-30px}
 	.col-lg-5 .social li a:after{content:'';height:15px;width:15px;border-radius:0;transform:translateX(-50%) rotate(45deg);top:-20px;z-index:-1}
 	
+	
+	.btn-grey{
+	    background-color:#D8D8D8;
+		color:#FFF;
+	}
+	.rating-block{
+		background-color:#FAFAFA;
+		border:1px solid #EFEFEF;
+		padding:15px 15px 20px 15px;
+		border-radius:3px;
+	}
+	.bold{
+		font-weight:700;
+	}
+	.padding-bottom-7{
+		padding-bottom:7px;
+	}
+	
+	.review-block{
+		background-color:#FAFAFA;
+		border:1px solid #EFEFEF;
+		padding:15px;
+		border-radius:3px;
+		margin-bottom:15px;
+	}
+	.review-block-name{
+		font-size:12px;
+		margin:10px 0;
+	}
+	.review-block-date{
+		font-size:12px;
+		margin-top:0px;	
+	}
+	.review-block-rate{
+		font-size:13px;
+		margin-bottom:15px;
+	}
+	.review-block-title{
+		font-size:15px;
+		font-weight:700;
+		margin-bottom:10px;
+	}
+	.review-block-description{
+		font-size:13px;
+	}
+
+	
 </style>
 {% endblock %}
 
@@ -83,29 +131,33 @@
 							<div class="product col-md-3 service-image-left">
 								<center>
 									<img class="pic-1" width="350" height="400" src="{{ product.product.product_image1.url }}">
-			                        <!--  <img class="pic-2" width="350" height="400" src="{{ product.product.product_image2.url }}">-->
+			                        <!--  <img class="pic-2" width="310" height="400" style="margin-right:20px" src="{{ product.product.product_image2.url }}">-->
 								</center>
 								<ul class="social">
-			                        <li style="margin-left:180px"><a href="#" data-tip="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
+			                        <li style="margin-left:180px"><a href="{% url 'usercart:add_to_wishlist' product.product.id %}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
 			                    </ul>
 							</div>
 						</div>
 					
 						<div class="col-md-6">
 							<div class="product-title">{{ product.product.name }}</div>
-							<div class="product-desc">The Corsair Gaming Series GS600 is the ideal price/performance choice for mid-spec gaming PC</div>
+							<br>
 							<div class="product-rating">
-								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
-								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
-								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
-								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
-								<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
+								{% for i in rating_range %}
+									{% if i < average_rating %}
+										<i class="fa fa-star" style="color:#499713;font-size:20px"></i>
+								  	{% else %}
+								  		<i class="fa fa-star" style="color:#E5DFDF;font-size:20px"></i>
+								  	{% endif %}
+								
+								{% endfor %}
 							</div>
 							{% if product.product.offer > 0 %}
-			                    <div class="product-price">र{{ product.product.price|get_discounted_price:product.product.offer }}
+			                    <div class="product-price">Rs. {{ product.product.price|get_discounted_price:product.product.offer }}
 			                    </div>
+			                    <p style="color:grey"><strike>Rs. {{ product.product.price|floatformat }}</strike></p>
 				            {% else %}
-				                <div class="product-price">र{{ product.product.price|floatformat }}</div>
+				                <div class="product-price">Rs. {{ product.product.price|floatformat }}</div>
 				            {% endif %}
 				            {% if product.product.avaiable_stock > 0 %}
 								<div class="product-stock" style="color:green">In Stock</div>
@@ -116,16 +168,32 @@
 							<div class="product-card-offer"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp&nbsp Bank Offer Extra {{ product.product.card_discount }}% off with Axis Bank Buzz Credit Card</div>
 							<div class="product-emi-offer"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp&nbsp No Cost EMI {{ product.product.emi_discount }}% discount on Bajaj Finserv EMI Card on cart value</div>
 							<hr>
-							<div class="btn-group cart">
-								<button type="button" class="btn btn-lg" style="background-color:#F5B60F;color:white">
-									<span class="glyphicon glyphicon-shopping-cart" style="color:white"></span>&nbsp ADD TO CART 
-								</button>
-							</div>
-							<div class="btn-group wishlist">
-								<button type="button" class="btn btn-lg" style="background-color:#F55B0F;color:white">
-									<span class="glyphicon glyphicon-flash" style="color:white"></span>&nbsp BUY NOW 
-								</button>
-							</div>
+							<form action="{% url 'usercart:add_to_cart' product.product.id %}" method="post">
+							{% csrf_token %}
+								{% if not product.size == None %}
+									<div class="container" style="font-size:16px">
+										Size:
+										{% for item_size in product.size|split_text %}
+												{{ item_size }} <input type="radio" name="size" value="{{item_size}}" style="display:inline" required/>&nbsp&nbsp
+										{% endfor %}
+									</div>	
+									<br>
+								{% endif %}
+								<div class="btn-group cart">
+									<a href="#">
+										<button type="submit" class="btn btn-lg" style="background-color:#F5B60F;color:white">
+											<span class="glyphicon glyphicon-shopping-cart" style="color:white"></span>&nbsp ADD TO CART 
+										</button>
+									</a>
+								</div>
+								<div class="btn-group wishlist">
+									<a href="#">
+										<button type="button" class="btn btn-lg" style="background-color:#F55B0F;color:white">
+											<span class="glyphicon glyphicon-flash" style="color:white"></span>&nbsp BUY NOW 
+										</button>
+									</a>
+								</div>
+							</form>
 						</div>
 					</div>	
 				</div> 
@@ -142,25 +210,166 @@
 							<div class="tab-pane fade in active" id="service-one">
 							 
 								<section class="container product-info">
-									The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.
-	
-									<h3>Corsair Gaming Series GS600 Features:</h3>
-									<li>It supports the latest ATX12V v2.3 standard and is backward compatible with ATX12V 2.2 and ATX12V 2.01 systems</li>
-									<li>An ultra-quiet 140mm double ball-bearing fan delivers great airflow at an very low noise level by varying fan speed in response to temperature</li>
-									<li>80Plus certified to deliver 80% efficiency or higher at normal load conditions (20% to 100% load)</li>
-									<li>0.99 Active Power Factor Correction provides clean and reliable power</li>
-									<li>Universal AC input from 90~264V — no more hassle of flipping that tiny red switch to select the voltage input!</li>
-									<li>Extra long fully-sleeved cables support full tower chassis</li>
-									<li>A three year warranty and lifetime access to Corsair’s legendary technical support and customer service</li>
-									<li>Over Current/Voltage/Power Protection, Under Voltage Protection and Short Circuit Protection provide complete component safety</li>
-									<li>Dimensions: 150mm(W) x 86mm(H) x 160mm(L)</li>
-									<li>MTBF: 100,000 hours</li>
-									<li>Safety Approvals: UL, CUL, CE, CB, FCC Class B, TÜV, CCC, C-tick</li>
+									<h3>{{ product.product.name }} Features:</h3>
+									{% for desc in product.description_split %}
+										<li>{{  desc  }}</li>
+									{% endfor %}
 								</section>
 											  
 							</div>
 							<div class="tab-pane fade" id="service-three">
-														
+									<div class="container">
+    			
+										<div class="row" style="margin-top:20px">
+											<div class="col-sm-3">
+												<div class="rating-block">
+													<h4>Average Rating</h4>
+													<h2 class="bold padding-bottom-7">{{ average_rating }} <small>/ 5</small></h2>
+													{% for i in rating_range %}
+														{% if i < average_rating %}
+															<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+													  			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+													  		</button>
+													  	{% else %}
+													  		<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+													  			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+															</button>
+													  	{% endif %}
+													
+													{% endfor %}
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<h4>Rating breakdown</h4>
+												<div class="pull-left">
+													<div class="pull-left" style="width:35px; line-height:1;">
+														<div style="height:9px; margin:5px 0;">5 <span class="glyphicon glyphicon-star"></span></div>
+													</div>
+													<div class="pull-left" style="width:180px;">
+														<div class="progress" style="height:9px; margin:8px 0;">
+														  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style="width: 1000%">
+															<span class="sr-only">80% Complete (danger)</span>
+														  </div>
+														</div>
+													</div>
+													<div class="pull-right" style="margin-left:10px;">{{ ratings_count.0 }}</div>
+												</div>
+												<div class="pull-left">
+													<div class="pull-left" style="width:35px; line-height:1;">
+														<div style="height:9px; margin:5px 0;">4 <span class="glyphicon glyphicon-star"></span></div>
+													</div>
+													<div class="pull-left" style="width:180px;">
+														<div class="progress" style="height:9px; margin:8px 0;">
+														  <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" style="width: 80%">
+															<span class="sr-only">80% Complete (danger)</span>
+														  </div>
+														</div>
+													</div>
+													<div class="pull-right" style="margin-left:10px;">{{ ratings_count.1 }}</div>
+												</div>
+												<div class="pull-left">
+													<div class="pull-left" style="width:35px; line-height:1;">
+														<div style="height:9px; margin:5px 0;">3 <span class="glyphicon glyphicon-star"></span></div>
+													</div>
+													<div class="pull-left" style="width:180px;">
+														<div class="progress" style="height:9px; margin:8px 0;">
+														  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" style="width: 60%">
+															<span class="sr-only">80% Complete (danger)</span>
+														  </div>
+														</div>
+													</div>
+													<div class="pull-right" style="margin-left:10px;">{{ ratings_count.2 }}</div>
+												</div>
+												<div class="pull-left">
+													<div class="pull-left" style="width:35px; line-height:1;">
+														<div style="height:9px; margin:5px 0;">2 <span class="glyphicon glyphicon-star"></span></div>
+													</div>
+													<div class="pull-left" style="width:180px;">
+														<div class="progress" style="height:9px; margin:8px 0;">
+														  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" style="width: 40%">
+															<span class="sr-only">80% Complete (danger)</span>
+														  </div>
+														</div>
+													</div>
+													<div class="pull-right" style="margin-left:10px;">{{ ratings_count.3 }}</div>
+												</div>
+												<div class="pull-left">
+													<div class="pull-left" style="width:35px; line-height:1;">
+														<div style="height:9px; margin:5px 0;">1 <span class="glyphicon glyphicon-star"></span></div>
+													</div>
+													<div class="pull-left" style="width:180px;">
+														<div class="progress" style="height:9px; margin:8px 0;">
+														  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" style="width: 20%">
+															<span class="sr-only">80% Complete (danger)</span>
+														  </div>
+														</div>
+													</div>
+													<div class="pull-right" style="margin-left:10px;">{{ ratings_count.4 }}</div>
+												</div>
+											</div>			
+										</div>			
+										{% if product_reviews.count > 0 %}
+											<div class="row">
+												<div class="col-sm-7">
+													<hr/>
+													<div class="review-block">
+														{% for reviews in product_reviews %}
+															<div class="row">
+																<div class="col-sm-3">
+																	<a target="_blank" href="{{ reviews.review_image2.url }}"><img src="{{ reviews.review_image2.url }}" width= "80" height="80" class="img-rounded"></a>
+																	<div class="review-block-name"><a href="#"><strong>{{ reviews.user.name }}</strong></a></div>
+																	<div class="review-block-date">{{ reviews.date }}<br/></div>
+																</div>
+																<div class="col-sm-9">
+																	<div class="review-block-rate">
+																		{% for i in rating_range %}
+																			{% if i < reviews.rating %}
+																				<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+																		  			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+																		  		</button>
+																		  	{% else %}
+																		  		<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+																		  			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+																				</button>
+																		  	{% endif %}
+																		
+																		{% endfor %}
+																	</div>
+																	<div class="review-block-description">{{ reviews.reviews }}</div>
+																</div>
+															</div>
+															<hr/>
+														{% endfor %}
+													</div>
+												</div>
+											</div>
+										 {% else %}
+										 	<div class="row" style="margin-top:30px;margin-left:18px">
+										 		<p style="font-size:20px"><strong>No Reviews</strong></p>
+										 	</div>
+										 {% endif %}
+								    </div> <!-- /container -->
+								    <div class="row">
+								    	<div class="col-md-6">
+										    <div class="rating-block" style="margin-left:16px">
+										    	<h3 style="margin-left:18px"> Add Reviews</h3>
+												<form action="{% url 'product:write_reviews' product.product.id  %}" role="form" method="post" enctype="multipart/form-data" style="margin-left:18px">
+												{% csrf_token %}
+													{% for field in form %}
+														<div class="form-group">
+													        <div class="col-sm-offset-2 col-sm-10">
+													            <span class="text-danger small">{{ field.errors }}</span>
+													        </div>
+													        <label style="margin-bottom:0px">{{ field.label_tag }}</label>
+													        {{ field }}
+													    </div>
+													{% endfor %}
+													<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-comment"></span>&nbsp Add Comment</button>
+												</form>	
+											</div>	
+										</div>
+									</div>
+												
 							</div>
 					</div>
 					<hr>

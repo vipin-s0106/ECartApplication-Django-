@@ -27,7 +27,7 @@
 	.product-grid .title{font-size:13px;font-weight:400;letter-spacing:.5px;text-transform:capitalize;margin:0 0 10px;transition:all .3s ease 0s}
 	.product-grid .title a{color:#828282}
 	.product-grid .title a:hover,.product-grid:hover .title a{color:#ef5777}
-	.product-grid .price{color:#333;font-size:17px;font-family:Montserrat,sans-serif;font-weight:700;letter-spacing:.6px;margin-bottom:8px;text-align:center;transition:all .3s}
+	.product-grid .price{color:#333;font-size:14px;font-family:Montserrat,sans-serif;font-weight:700;letter-spacing:.6px;margin-bottom:8px;text-align:center;transition:all .3s}
 	.product-grid .price span{color:#999;font-size:13px;font-weight:400;text-decoration:line-through;margin-left:3px;display:inline-block}
 	.product-grid .add-to-cart{color:#000;font-size:13px;font-weight:600}
 	@media only screen and (max-width:990px){.product-grid{margin-bottom:30px}
@@ -42,7 +42,7 @@
 	    min-width: 250px;
 	    max-width: 250px;
 	    min-height: 100vh;
-	    background: #EAEAE7;
+	    background: #F3F2F2;
 	    color: black;
 	    transition: all 0.3s;
 	}
@@ -94,56 +94,47 @@
 		<br>
         <ul class="list-unstyled components" style="margin-left:10px">
             <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="font-size:18px">Top Wear<span class="glyphicon glyphicon-chevron-down" style="font-size:10px;margin-left:10px"></a>
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="font-size:16px">Top Wear<span class="glyphicon glyphicon-chevron-down" style="font-size:10px;margin-left:10px"></a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp T-Shirts</a>
+                        <a href="{% url 'product:mens_wear_product' 'T-shirt' %}">&nbsp&nbsp&nbsp&nbsp T-Shirts</a>
                     </li>
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Shirts</a>
+                        <a href="{% url 'product:mens_wear_product' 'shirt1' %}">&nbsp&nbsp&nbsp&nbsp Shirts</a>
                     </li>
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Kurtas</a>
+                        <a href="{% url 'product:mens_wear_product' 'kurta' %}">&nbsp&nbsp&nbsp&nbsp Kurtas</a>
                     </li>
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Suits and Blazzers</a>
+                        <a href="{% url 'product:mens_wear_product' 'Blazzers' %}">&nbsp&nbsp&nbsp&nbsp Suits and Blazzers</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="font-size:18px">Botton Wear <span class="glyphicon glyphicon-chevron-down" style="font-size:10px;margin-left:10px"> </a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="font-size:16px">Botton Wear <span class="glyphicon glyphicon-chevron-down" style="font-size:10px;margin-left:10px"> </a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Jeans</a>
+                        <a href="{% url 'product:mens_wear_product' 'Jeans' %}">&nbsp&nbsp&nbsp&nbsp Jeans</a>
                     </li>
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Trousers</a>
+                        <a href="{% url 'product:mens_wear_product' 'Trouser' %}">&nbsp&nbsp&nbsp&nbsp Trousers</a>
                     </li>
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Shorts and 3/4ths</a>
+                        <a href="{% url 'product:mens_wear_product' 'Shorts' %}">&nbsp&nbsp&nbsp&nbsp Shorts and 3/4ths</a>
                     </li>
                     <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Cargos</a>
-                    </li>
-                    <li>
-                        <a href="#">&nbsp&nbsp&nbsp&nbsp Track Pants</a>
+                        <a href="{% url 'product:mens_wear_product' 'Track' %}">&nbsp&nbsp&nbsp&nbsp Track Pants</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#" style="font-size:18px">Sports Wear</a>
+                <a href="{% url 'product:mens_shoes_product' %}" style="font-size:16px">Shoes</a>
             </li>
             <li>
-                <a href="#" style="font-size:18px">Shoes</a>
+                <a href="{% url 'product:mens_accessories_product' 'watch' %}" style="font-size:16px">Watches</a>
             </li>
             <li>
-                <a href="#" style="font-size:18px">Watches</a>
-            </li>
-            <li>
-                <a href="#" style="font-size:18px">Men's Gromming</a>
-            </li>
-            <li>
-                <a href="#" style="font-size:18px">Accessories</a>
+                <a href="{% url 'product:mens_accessories_product' 'accessories' %}" style="font-size:16px">Accessories</a>
             </li>
         </ul>
         <br>
@@ -235,8 +226,8 @@
 			                    </a>
 			                    <ul class="social">
 			                        <li><a href="{% url 'product:product_detail' product.product.id %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-			                        <li><a href="" data-tip="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
-			                        <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+			                        <li><a href="{% url 'usercart:add_to_wishlist' product.product.id %}" data-tip="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
+			                        <li><a href="{% url 'usercart:add_to_cart' product.product.id %}" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
 			                    </ul>
 			                    {% if product.product.offer > 0 %}
 				                    <span class="product-new-label">Offer</span>
@@ -247,13 +238,13 @@
 			                <div class="product-content">
 			                    <h3 class="title"><a href="#">{{ product.product.name }}</a></h3>
 			                    {% if product.product.offer > 0 %}
-				                    <div class="price">र{{ product.product.price|get_discounted_price:product.product.offer }}
-				                        <span>र{{ product.product.price }}</span>
+				                    <div class="price">Rs. {{ product.product.price|get_discounted_price:product.product.offer }}
+				                        <span>Rs. {{ product.product.price }}</span>
 				                    </div>
 				                {% else %}
-				                	<div class="price">र{{ product.product.price|floatformat }}</div>
+				                	<div class="price">Rs. {{ product.product.price|floatformat }}</div>
 				                {% endif %}
-			                    <a href=""><i class="fa fa-shopping-cart"></i>&nbspAdd To Cart</a>
+			                    <a href="{% url 'usercart:add_to_wishlist' product.product.id %}"><i class="fa fa-heart" style="color:red"></i>&nbspAdd To Wishlist</a>
 			                </div>
 			            </div>
 			        </div>

@@ -1,0 +1,88 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block cssloading %}
+<style>
+a.list-group-item {
+    height:auto;
+    min-height:220px;
+}
+.stars {
+    margin:20px auto 1px;    
+}
+</style>
+{% endblock %}
+{% block body %}
+<div class="container" style="margin-top:20px">
+	{% if products_in_wishlist|length > 0 %}
+		<div class="list-group">
+			{% for product in products_in_wishlist %}
+				  
+			          <div href="{% url 'product:product_detail' product.product.id %}" class="row" style="margin-top:10px">
+			                <div class="media col-md-3">
+			                    <figure class="pull-left">
+			                        <img class="media-object img-rounded" width="250" height="250"  src="{{ product.product.product_image1.url }}">
+			                    </figure>
+			                </div>
+			                <form action="{% url 'usercart:move_to_cart' product.product.id %}" method="post">
+			                	{% csrf_token %}
+					                <div class="col-md-6">
+					                	<a href="{% url 'product:product_detail' product.product.id %}">
+						                    <h4 class="list-group-item-heading"> {{ product.product.name }}</h4>
+						                </a>
+						                <h4 style="font-size:15px;font-weight:bold">
+						                	{% if product.product.offer > 0 %}
+							                    <div class="product-price">र {{ product.product.price|get_discounted_price:product.product.offer }}
+							                    </div>
+				            				{% else %}
+				                				<div class="product-price">र {{ product.product.price|floatformat }}</div>
+				            				{% endif %}
+				            			</h4>
+					                    <p class="list-group-item-text"> 
+					                    	{% for desc in product.product.id|description_split %}
+												<li>{{  desc  }}</li>
+											{% endfor %}
+											...
+											<br>
+											<div class="container" style="font-size:16px">
+												{% if product.product.id|size_split_text != None %}
+													Size:
+													{% for item_size in product.product.id|size_split_text %}
+															{{ item_size }} <input type="radio" name="size" value="{{item_size}}" style="display:inline" required/>&nbsp&nbsp
+													{% endfor %}
+												{% endif %}
+											</div>	
+					                    </p>
+					                    
+					                </div>
+					                <div class="col-md-3 text-center">
+					                    <h2> {{ product.product.id|get_product_total_reviews|length }} <small> reviews </small></h2>
+					                    <button type="submit" class="btn btn-primary btn-lg btn-block" style="background-color:#F5B60F;border-color:#F5B60F"><span class="glyphicon glyphicon-shopping-cart"></span> Move to cart</button>
+					                    <a href="{% url 'usercart:remove_wishlist_product' product.product.id %}" class="btn btn-primary btn-lg btn-block" style="margin-top:20px;background-color:Tomato;border-color:Tomato"><span class="glyphicon glyphicon-trash"></span> Remove</a>
+					                    <div class="stars">
+					                        {% for i in rating_range %}
+												{% if i < product.product.id|average_rating %}
+													<span class="glyphicon glyphicon-star"></span>
+											  	{% else %}
+											  		<span class="glyphicon glyphicon-star-empty"></span>
+											  	{% endif %}
+											{% endfor %}
+					                    </div>
+					                    <p> Average {{ product.product.id|average_rating }} <small> / </small> 5 </p>
+					                </div>
+			                </form>
+			          </div>
+		          
+		     {% endfor %}
+		     <hr>
+			 <a href="{% url 'product:home' %}" class="btn btn-primary" ><i class="fa fa-angle-left"></i> Continue Shopping </a>
+        </div>
+	{% else %}
+	
+		<div align="center" style="margin-top:40px"><img  src="{% static 'product/images/emptywishlist.png' %}" width="250" height="250"/></div>
+		<h3 style="color:blue;font-size:16px" align="center">Sorry! {{request.user.name}} Your Wishlist is empty</h3>
+		<hr>
+		<a href="{% url 'product:home' %}" class="btn btn-primary" ><i class="fa fa-angle-left"></i> Continue Shopping </a>
+	{% endif %}
+</div>
+{% endblock %}

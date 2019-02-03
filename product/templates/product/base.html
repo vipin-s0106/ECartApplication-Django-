@@ -42,9 +42,9 @@
 	      <ul class="nav navbar-nav navbar-right" style="margin-right:20px">
 	      	 {% if request.user.is_authenticated %}
 		        <li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px;color:white">{{ request.user.name }}</a></li>
-		     	<li><a href="#Wishlist"><span class="glyphicon glyphicon-heart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_wishlist_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_wishlist_value }}</span>{% endif %}</a></li>
-		     	<li><a href="#Cart"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_cart_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_cart_value }}</span>{% endif %}</a></li>
-		        <li><a href="{% url 'user:user_logout' %}"><span class="glyphicon glyphicon-off" style="font-size: 20px;color:white;margin-top:4px"></span></a></li>    
+		     	<li><a href="{% url 'usercart:wishlist_view' %}" data-toggle="tooltip" title="Wishlist"><span class="glyphicon glyphicon-heart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_wishlist_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_wishlist_value }}</span>{% endif %}</a></li>
+		     	<li><a href="{% url 'usercart:cart_view' %}" data-toggle="tooltip" title="Cart"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_cart_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_cart_value }}</span>{% endif %}</a></li>
+		        <li><a href="{% url 'user:user_logout' %}" data-toggle="tooltip" title="Logout"><span class="glyphicon glyphicon-off" style="font-size: 20px;color:white;margin-top:4px"></span></a></li>    
 		     {% else %}	     
 		     	<li><a href="{% url 'user:user_login' %}" id="myBtn" style="font-size:17px;font-weight: bold;margin-top:5px;font-family:Lucida Sans Unicode;color:white">Login & SignUp</a></li>
 		     	<li><a href="#" style="font-size:17px;font-weight: bold;margin-top:5px;font-family:Lucida Sans Unicode;color:white">More</a></li>
@@ -60,11 +60,11 @@
 	  <div class="container-fluid">
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav" style="margin-top:10px;margin-bottom:0px;margin-left:30px">
-		        <li ><a href="#" style="font-size:15px;font-weight:650">Electronics</a></li>
-		        <li ><a href="#" style="font-size:15px;font-weight:650">TVs & Appliances</a></li>
+		        <li ><a href="{% url 'product:electronics_product' 'ALL' %}" style="font-size:15px;font-weight:650">Electronics</a></li>
+		        <li ><a href="{% url 'product:tv_appliance_product' 'ALL' %}" style="font-size:15px;font-weight:650">TVs & Appliances</a></li>
 		        <li ><a href="{% url 'product:mens_product' %}" style="font-size:15px;font-weight:650">Men</a></li>
-		        <li ><a href="#" style="font-size:15px;font-weight:650">Women</a></li>
-		        <li ><a href="#" style="font-size:15px;font-weight:650">Baby & Kids</a></li>
+		        <li ><a href="{% url 'product:womens_product' %}" style="font-size:15px;font-weight:650">Women</a></li>
+		        <!--  <li ><a href="#" style="font-size:15px;font-weight:650">Baby & Kids</a></li>-->
 	      </ul>
 	    </div>
 	  </div>
@@ -74,7 +74,7 @@
 <div class="container">
 	{% if messages %}
 	        	{% for message in messages %}
-	        		<div class="alert alert-{{ message.tags }}" style="color:red">
+	        		<div class="alert alert-{{ message.tags }}">
 			        	<p align="middle">{{ message }}</p>
 			        </div>
 	        	{% endfor %}

@@ -2,6 +2,8 @@ from django.db import models
 from user.models import User
 # Create your models here.
 import datetime
+from PIL import Image
+
 
 class Product(models.Model):
     name = models.CharField(max_length = 150)
@@ -19,13 +21,48 @@ class Product(models.Model):
     def __str__(self):
         return "ID : "+str(self.pk)+" -- "+self.name
     
+    #Saving Image to required size
+    '''
+    def save(self,**kwargs):
+        super().save()
+        
+        img1 = Image.open(self.product_image1.path)
+        img2 = Image.open(self.product_image2.path)
+        
+        if img1.height > 300 or img1.width > 250:
+            if img1.height > 300 and img1.width < 250:
+                output_size = (300,img1.width)
+            elif(img1.height < 300 and img1.width > 250):
+                output_size = (img1.height,250)
+                img1.thumbnail(output_size)
+                img1.save(self.product_image1.path)
+            else:
+                output_size = (300,250)
+            img1.thumbnail(output_size)
+            img1.save(self.product_image1.path)
+            
+        if img2.height > 300 or img2.width > 250:
+            if img2.height > 300 and img2.width < 250:
+                output_size = (300,img2.width)
+                
+            elif(img2.height < 300 and img2.width > 250):
+                output_size = (img2.height,250)
+            else:
+                output_size = (300,250)
+            img2.thumbnail(output_size)
+            img2.save(self.product_image2.path)
+    '''        
+            
+        
+    
 
 class ProductInfo(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     reviews = models.TextField(null=True,blank=True)
-    rating = models.IntegerField(null=True,blank=True,help_text=('Please give rating out of 5'))
-    review_image2 = models.ImageField(null=True,blank=True)
+    rating = models.IntegerField(default=1)
+    date = models.CharField(max_length=15,default=datetime.datetime.now().strftime('%Y-%m-%d'))
+    review_image2 = models.FileField(("Attach image"),default="NoImage.png")
     
     
     def __str__(self):
@@ -50,6 +87,9 @@ class Clothing(models.Model):
     def __str__(self):
         return self.product.name+" "+self.category+" "+self.gender
     
+    def description_split(self):
+        return self.description.split(";")
+    
 class Footwear(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null=False)
     category = models.CharField(max_length = 150,null=False)
@@ -68,6 +108,9 @@ class Footwear(models.Model):
     def __str__(self):
         return self.product.name+" "+self.category+" "+self.gender
     
+    def description_split(self):
+        return self.description.split(";")
+    
 
 class Accessories(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null=False)
@@ -81,20 +124,24 @@ class Accessories(models.Model):
                     )  
     gender = models.CharField('Gender',choices=GENDER_CHOICES,max_length=1,null=True)
     brand = models.CharField(max_length = 150,null=True,blank=True)
+    size = models.CharField(max_length = 150,null=True,blank=True)
+    color = models.CharField(max_length = 150,null=True,blank=True,help_text=('Please enter brand like - Red,brown etc'))
+    
+    
+    def description_split(self):
+        return self.description.split(";")
+    
+    def __str__(self):
+        return self.product.name+" "+self.category+" "+self.gender
+    
 
 class Electronics(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null=False)
     category = models.CharField(max_length = 150,null=False)
     sub_category = models.CharField(('Sub Category'),max_length = 150,null=False)
     description = models.TextField(null=False)
-    GENDER_CHOICES = (
-                     ('M', 'Male'),
-                     ('F', 'Female'),
-                     ('K','Kids')
-                    )  
-    gender = models.CharField('Gender',choices=GENDER_CHOICES,max_length=1,null=True)
     brand = models.CharField(max_length = 150,null=True,blank=True)
-    screen_size = models.CharField(max_length = 150,null=True,blank=True,help_text=('Please enter screen size like - 15.6,5.5 etc'))
+    size = models.CharField(max_length = 150,null=True,blank=True)
     os = models.CharField(max_length = 150,null=True,blank=True)
     ram_size = (
                      ('','--Select--'),
@@ -126,4 +173,10 @@ class Electronics(models.Model):
     ram = models.CharField(choices=ram_size,null=True,blank=True,default='',max_length=50)
     storage = models.CharField(choices=storage_choice,null=True,blank=True,default='',max_length=50)
     camera = models.CharField(choices=camera_choice,null=True,blank=True,default='',max_length=50)
+    
+    def description_split(self):
+        return self.description.split(";")
+    
+    def __str__(self):
+        return self.product.name+" | "+self.category+" | "+self.sub_category
     
