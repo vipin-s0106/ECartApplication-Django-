@@ -1,0 +1,61 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block cssloading %}
+
+{% endblock %}
+{% block body %}
+<form role="form" action="#" method="POST">
+{% csrf_token %}
+	<div class="container">
+	   <h3 class="pb-3 mb-4 font-italic border-bottom">
+	      Select Address
+	   </h3>
+	   <hr>
+	   {% for address in address_list %}
+		   <div class="card-body d-flex flex-column align-items-start">
+		      <input type="radio" name="address" value="{{address.id}}" required>  <p style="color:blue;display:inline-block;font-size:25px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ address.name }}</p></input>
+		      <br>
+		      <div class="content" style="margin-left:3px">
+			      <div class="container" style="max-width: 89%;background-color:#FAFAFA;border:1px solid #EFEFEF;padding:15px;border-radius:3px;margin-bottom:15px;">
+				        <div class="col-xs-6 text-left">
+			    				<address>
+			        			<strong>Shipped To:</strong><br>
+			    					{{ address.street_address }} <br>
+			    					{{ address.state_choice }}, India<br>
+			    					{{ address.pincode }}
+			    				</address>
+			    	    </div>
+			      </div>
+			  </div>
+		   </div>  
+		{% endfor %}    
+	</div>
+	<div class="container">
+		<h3 class="pb-3 mb-4 font-italic border-bottom">
+		      Select Payment mode
+		   </h3>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<input type="radio" style="margin-top:2px" name="paymentmode" value="paypal" required/><span><img src="{% static 'payment/images/paypal.gif' %}" style="margin-left:20px" width="150" height="70" /></span>
+			</div>
+			<div class="col-md-2">
+				<input type="radio" style="margin-top:2px" name="paymentmode" value="cod" required/><span><img src="{% static 'payment/images/cod.gif' %}" style="margin-left:20px" width="150" height="70" /></span>
+			</div>
+			<div class="col-md-2">
+				<input type="radio" style="margin-top:2px" name="paymentmode" value="visa" required/><span><img src="{% static 'payment/images/visa.gif' %}" style="margin-left:20px" width="150" height="70" /></span>
+			</div>
+			<div class="col-md-2">
+				<input type="radio" style="margin-top:2px" name="paymentmode" value="paytm" required/><span><img src="{% static 'payment/images/paytm.gif' %}" style="margin-left:20px" width="150" height="70" /></span>
+			</div>
+			<div class="col-md-2">
+				<input type="radio" style="margin-top:2px" name="paymentmode" value="tej" required/><span><img src="{% static 'payment/images/tez.gif' %}" style="margin-left:20px" width="150" height="70" /></span>
+			</div>
+		</div>
+		<br>
+		<button type="submit" class="btn btn-lg" style="background-color:orange">Place Order</button>
+		<hr>
+	</div>
+</form>
+{% endblock %}

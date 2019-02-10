@@ -132,106 +132,201 @@
     </a>
 </div>
 <br>
-<!-- Container (Portfolio Section) -->
+<!-- Container (Womens Section) -->
 <div id="portfolio" class="container-fluid bg-grey">
   <div class="row"></div>
   	<div class="col-sm-3">
-	  <h2 style="font-size:20px">Women's Product</h2>
+	  <h2 style="font-size:20px;color:blue">Women's Product</h2>
 	</div>
 	<div class="col-sm-2"></div><div class="col-sm-6"></div>
 	<div class="col-sm-1">
-	  <a href="#" class="btn btn-danger btn-sm" style="margin-top:25px;float:right">View All</a>
+	  <a href="{% url 'product:womens_product' %}" class="btn  btn-md" style="margin-top:25px;float:right;background-color:blue;color:white">View All</a>
     </div>
   </div>
   <div class="container" style="margin-left:90px">
 	  <div class="row">
-	       <div class="col-md-3" style="margin-top:15px">
-	           <div class="product-grid" >
-	               <div class="product-image">
-	                   <a href="#">
-	                       <img class="pic-1" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-1.jpg">
-	                       <img class="pic-2" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-2.jpg">
-	                   </a>
-	                   <ul class="social">
-	                       <li><a href="#" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-	                   </ul> 
-	                    <span class="product-new-label">Offer</span>
-	                    <span class="product-discount-label">45 %</span>
-	                    <div class="product-content">
-		                    <h3 class="title" style="font-weight:bold"><a href="#">ABC</a></h3>
-		                    <p style="color:green;font-weight:bold;margin-top:0px">Upto 30 % Off</p>
-		                    <p style="color:grey;font-weight:bold;margin-top:0px">on Womens Top</p>
-		                </div>
-	               </div>
-	               
-	           </div>
-	       </div>
-	       <div class="col-md-3" style="margin-top:15px">
-	           <div class="product-grid" >
-	               <div class="product-image">
-	                   <a href="#">
-	                       <img class="pic-1" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-3.jpg">
-	                       <img class="pic-2" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-4.jpg">
-	                   </a>
-	                   <ul class="social">
-	                       <li><a href="#" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-	                   </ul> 
-	                    <span class="product-new-label">Offer</span>
-	                    <span class="product-discount-label">45 %</span>
-	                    <div class="product-content">
-		                    <h3 class="title" style="font-weight:bold"><a href="#">ABC</a></h3>
-		                    <p style="color:green;font-weight:bold;margin-top:0px">Upto 30 % Off</p>
-		                    <p style="color:grey;font-weight:bold;margin-top:0px">on Womens Top</p>
-		                </div>
-	               </div>
-	               
-	           </div>
-	       </div>
-	       <div class="col-md-3" style="margin-top:15px">
-	           <div class="product-grid" >
-	               <div class="product-image">
-	                   <a href="#">
-	                       <img class="pic-1" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-5.jpg">
-	                       <img class="pic-2" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-6.jpg">
-	                   </a>
-	                   <ul class="social">
-	                       <li><a href="#" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-	                   </ul> 
-	                    <span class="product-new-label">Offer</span>
-	                    <span class="product-discount-label">45 %</span>
-	                    <div class="product-content">
-		                    <h3 class="title" style="font-weight:bold"><a href="#">ABC</a></h3>
-		                    <p style="color:green;font-weight:bold;margin-top:0px">Upto 30 % Off</p>
-		                    <p style="color:grey;font-weight:bold;margin-top:0px">on Womens Top</p>
-		                </div>
-	               </div>
-	               
-	           </div>
-	       </div>
-	       <div class="col-md-3" style="margin-top:15px">
-	           <div class="product-grid" >
-	               <div class="product-image">
-	                   <a href="#">
-	                       <img class="pic-1" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-7.jpg">
-	                       <img class="pic-2" width="250" height="300" src="http://bestjquery.com/tutorial/product-grid/demo9/images/img-8.jpg">
-	                   </a>
-	                   <ul class="social">
-	                       <li><a href="#" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-	                   </ul> 
-	                    <span class="product-new-label">Offer</span>
-	                    <span class="product-discount-label">45 %</span>
-	                    <div class="product-content">
-		                    <h3 class="title" style="font-weight:bold"><a href="#">ABC</a></h3>
-		                    <p style="color:green;font-weight:bold;margin-top:0px">Upto 30 % Off</p>
-		                    <p style="color:grey;font-weight:bold;margin-top:0px">on Womens Top</p>
-		                </div>
-	               </div>
-	               
-	           </div>
-	       </div>
+	  	   {% for product in womens_product %}
+		       <div class="col-md-3" style="margin-top:15px">
+		           <div class="product-grid" >
+		               <div class="product-image">
+		                   <a href="{% url 'product:womens_wear_product' product.category %}">
+		                       <img class="pic-1" width="250" height="300" src="{{ product.product.product_image1.url }}">
+		                       <img class="pic-2" width="250" height="300" style="margin-left:4px" src="{{ product.product.product_image2.url }}">
+		                   </a>
+		                   <ul class="social">
+		                       <li><a href="{% url 'product:womens_wear_product' product.category %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+		                   </ul> 
+		                    <div class="product-content">
+			                    <h3 class="title" style="font-weight:bold"><a href="{% url 'product:womens_wear_product' product.category %}">{{ product.product.name }}</a></h3>
+			                    {% if product.product.offer > 0 %}
+			                    	<p style="color:green;font-weight:bold;margin-top:0px">Upto {{ product.product.offer }} % Off</p>
+			                    {% endif %}
+			                    <p style="color:grey;font-weight:bold;margin-bottom:20px">on Womens {{ product.category }}</p>
+			                </div>
+		               </div>
+		           </div>
+		       </div>
+		   {% endfor %}
 	  </div>
   </div>
 </div>
+<br>
+<!-- Container (Mens Section) -->
+<div id="portfolio" class="container-fluid bg-grey">
+  <div class="row"></div>
+  	<div class="col-sm-3">
+	  <h2 style="font-size:20px;color:blue">Men's Product</h2>
+	</div>
+	<div class="col-sm-2"></div><div class="col-sm-6"></div>
+	<div class="col-sm-1">
+	  <a href="{% url 'product:mens_product' %}" class="btn  btn-md" style="margin-top:25px;float:right;background-color:blue;color:white">View All</a>
+    </div>
+  </div>
+  <div class="container" style="margin-left:90px">
+	  <div class="row">
+	  	   {% for product in mens_product %}
+		       <div class="col-md-3" style="margin-top:15px">
+		           <div class="product-grid" >
+		               <div class="product-image">
+		                   <a href="{% url 'product:mens_wear_product' product.category %}">
+		                       <img class="pic-1" width="250" height="300" src="{{ product.product.product_image1.url }}">
+		                       <img class="pic-2" width="250" height="300" style="margin-left:4px" src="{{ product.product.product_image2.url }}">
+		                   </a>
+		                   <ul class="social">
+		                       <li><a href="{% url 'product:mens_wear_product' product.category %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+		                   </ul> 
+		                    <div class="product-content">
+			                    <h3 class="title" style="font-weight:bold"><a href="{% url 'product:mens_wear_product' product.category %}">{{ product.product.name }}</a></h3>
+			                    {% if product.product.offer > 0 %}
+			                    	<p style="color:green;font-weight:bold;margin-top:0px">Upto {{ product.product.offer }} % Off</p>
+			                    {% endif %}
+			                    <p style="color:grey;font-weight:bold;margin-bottom:20px">on Mens {{ product.category }}</p>
+			                </div>
+		               </div>
+		           </div>
+		       </div>
+		   {% endfor %}
+	  </div>
+  </div>
+</div>
+<br>
+<!-- Container (Mobile Section) -->
+<div id="portfolio" class="container-fluid bg-grey">
+  <div class="row"></div>
+  	<div class="col-sm-3">
+	  <h2 style="font-size:20px;color:blue">Mobiles Deal</h2>
+	</div>
+	<div class="col-sm-2"></div><div class="col-sm-6"></div>
+	<div class="col-sm-1">
+	  <a href="{% url 'product:electronics_product' 'ALL' %}" class="btn  btn-md" style="margin-top:25px;float:right;background-color:blue;color:white">View All</a>
+    </div>
+  </div>
+  <div class="container" style="margin-left:90px">
+	  <div class="row">
+	  	   {% for product in mobile_product %}
+		       <div class="col-md-3" style="margin-top:15px">
+		           <div class="product-grid" >
+		               <div class="product-image">
+		                   <a href="{% url 'product:electronics_product' product.sub_category %}">
+		                       <img class="pic-1" width="250" height="300" src="{{ product.product.product_image1.url }}">
+		                       <img class="pic-2" width="250" height="300" style="margin-left:4px" src="{{ product.product.product_image2.url }}">
+		                   </a>
+		                   <ul class="social">
+		                       <li><a href="{% url 'product:electronics_product' product.sub_category %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+		                   </ul> 
+		                    <div class="product-content">
+			                    <h3 class="title" style="font-weight:bold"><a href="{% url 'product:electronics_product' product.sub_category %}">{{ product.product.name }}</a></h3>
+			                    {% if product.product.offer > 0 %}
+			                    	<p style="color:green;font-weight:bold;margin-top:0px">Upto {{ product.product.offer }} % Off</p>
+			                    {% endif %}
+			                    <p style="color:grey;font-weight:bold;margin-bottom:20px">on {{ product.sub_category }}</p>
+			                </div>
+		               </div>
+		           </div>
+		       </div>
+		   {% endfor %}
+	  </div>
+  </div>
+</div>
+<br>
+<!-- Container (Computer Section) -->
+<div id="portfolio" class="container-fluid bg-grey">
+  <div class="row"></div>
+  	<div class="col-sm-3">
+	  <h2 style="font-size:20px;color:blue">Computer Deal</h2>
+	</div>
+	<div class="col-sm-2"></div><div class="col-sm-6"></div>
+	<div class="col-sm-1">
+	  <a href="{% url 'product:electronics_product' 'ALL' %}" class="btn  btn-md" style="margin-top:25px;float:right;background-color:blue;color:white">View All</a>
+    </div>
+  </div>
+  <div class="container" style="margin-left:90px">
+	  <div class="row">
+	  	   {% for product in computer_product %}
+		       <div class="col-md-3" style="margin-top:15px">
+		           <div class="product-grid" >
+		               <div class="product-image">
+		                   <a href="{% url 'product:electronics_product' product.sub_category %}">
+		                       <img class="pic-1" width="250" height="300" src="{{ product.product.product_image1.url }}">
+		                       <img class="pic-2" width="250" height="300" style="margin-left:4px" src="{{ product.product.product_image2.url }}">
+		                   </a>
+		                   <ul class="social">
+		                       <li><a href="{% url 'product:electronics_product' product.sub_category %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+		                   </ul> 
+		                    <div class="product-content">
+			                    <h3 class="title" style="font-weight:bold"><a href="{% url 'product:electronics_product' product.sub_category %}">{{ product.product.name }}</a></h3>
+			                    {% if product.product.offer > 0 %}
+			                    	<p style="color:green;font-weight:bold;margin-top:0px">Upto {{ product.product.offer }} % Off</p>
+			                    {% endif %}
+			                    <p style="color:grey;font-weight:bold;margin-bottom:20px">on {{ product.sub_category }}</p>
+			                </div>
+		               </div>
+		           </div>
+		       </div>
+		   {% endfor %}
+	  </div>
+  </div>
+</div>
+<br>
+<!-- Container (TV & Home Appliances Section) -->
+<div id="portfolio" class="container-fluid bg-grey">
+  <div class="row"></div>
+  	<div class="col-sm-3">
+	  <h2 style="font-size:20px;color:blue">TV & Home Appliances Deal</h2>
+	</div>
+	<div class="col-sm-2"></div><div class="col-sm-6"></div>
+	<div class="col-sm-1">
+	  <a href="{% url 'product:tv_appliance_product' 'ALL' %}" class="btn  btn-md" style="margin-top:25px;float:right;background-color:blue;color:white">View All</a>
+    </div>
+  </div>
+  <div class="container" style="margin-left:90px">
+	  <div class="row">
+	  	   {% for product in home_appliance_product %}
+		       <div class="col-md-3" style="margin-top:15px">
+		           <div class="product-grid" >
+		               <div class="product-image">
+		                   <a href="{% url 'product:tv_appliance_product' product.sub_category %}">
+		                       <img class="pic-1" width="250" height="300" src="{{ product.product.product_image1.url }}">
+		                       <img class="pic-2" width="250" height="300" style="margin-left:4px" src="{{ product.product.product_image2.url }}">
+		                   </a>
+		                   <ul class="social">
+		                       <li><a href="{% url 'product:tv_appliance_product' product.sub_category %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+		                   </ul> 
+		                    <div class="product-content">
+			                    <h3 class="title" style="font-weight:bold"><a href="{% url 'product:tv_appliance_product' product.sub_category %}">{{ product.product.name }}</a></h3>
+			                    {% if product.product.offer > 0 %}
+			                    	<p style="color:green;font-weight:bold;margin-top:0px">Upto {{ product.product.offer }} % Off</p>
+			                    {% endif %}
+			                    <p style="color:grey;font-weight:bold;margin-bottom:20px">on {{ product.sub_category }}</p>
+			                </div>
+		               </div>
+		           </div>
+		       </div>
+		   {% endfor %}
+	  </div>
+  </div>
+</div>
+<br>
 <br>
 <!-- Image of location/map -->
 <img src="{% static 'product/images/shopping_area.jpg' %}" class="img-responsive" style="width:100%">

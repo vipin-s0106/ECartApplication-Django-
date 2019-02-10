@@ -1,6 +1,8 @@
 from django import template
 from usercart.models import Mycart,Wishlist
 from product.models import Product,Accessories,Clothing,Electronics,Footwear,ProductInfo
+from payment.models import OrderItem
+from datetime import datetime,timedelta
 
 register = template.Library()
 
@@ -111,9 +113,14 @@ def get_total(products,quantity_list):
         total += round((product.product.price - (product.product.price*product.product.offer)/100))*(int(quantity_list.get(product.product.id)))
     return total+60
 
-    
-
-
-
-
+@register.filter(name = "get_order_status")    
+def get_order_status(order_id):
+    order = OrderItem.objects.filter(id = int(order_id)).first()
+    if datetime.now().strftime('%Y-%m-%d') < (datetime.strptime(order.deliver_date, '%Y-%m-%d') + timedelta(days=3)).strftime('%Y-%m-%d'):
+        order.status = "In Shipping"
+        order.save()      
+    elif datetime.now().strftime('%Y-%m-%d') >= order.deliver_date:
+        order.status = "Delivered"
+        order.save()  
+    return order.status
     

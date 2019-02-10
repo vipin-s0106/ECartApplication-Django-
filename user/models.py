@@ -23,12 +23,13 @@ class Address(models.Model):
     street_address = models.TextField(('Street Address'),null=False)
     STATE_CHOICES = (
                     ('','--Select--'),
-                    ('MAH', 'Mahashtra'),
-                    ('RAJ', 'Rajsthan'),
-                    ('GUJ', 'Gujrat'),
-                    ('KAN', 'Karnataka'),
+                    ('Maharashtra', 'Mahashtra'),
+                    ('Rajsthan', 'Rajsthan'),
+                    ('Gujrat', 'Gujrat'),
+                    ('Karnataka', 'Karnataka'),
+                    ('Delhi', 'Delhi'),
     )
-    state_choice = models.CharField(('State'),max_length=5,
+    state_choice = models.CharField(('State'),max_length=11,
                                       choices=STATE_CHOICES,
                                       default='')
     pincode = models.IntegerField(('Pin-Code'),null=False)

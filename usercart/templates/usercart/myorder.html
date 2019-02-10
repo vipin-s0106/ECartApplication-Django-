@@ -1,0 +1,113 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block cssloading %}
+<style>
+
+.tab-content {
+  overflow: hidden;
+ }
+
+.content {
+  margin: 50px;
+  background: #E9EEEA;
+  padding: 3em;
+  line-height: 1.5em;
+ }
+ .card {
+  background: White;
+ }
+
+.checked, .price span {
+  color: #ff9f1a; }
+
+.orange {
+  background: #ff9f1a; }
+
+.green {
+  background: #85ad00; }
+
+.blue {
+  background: #0076ad; }
+
+</style>
+{% endblock %}
+
+{% block body %}
+{% if Final_Orders|length > 0 %}
+	{% for order in Final_Orders %}
+		<div class="content">
+			<div class="row">
+				{% for order1 in order.0 %}	
+						<div class="col-md-5" style="margin-top:10px">
+							<div class="card">
+								<div class="container-fliud">
+									<div class="wrapper row">
+										<div class="preview col-sm-6">
+											<div>
+											  <div class="tab-pane active"><img width="200" height="250" src="{{ order1.0.product_image1.url }}" /></div>
+											</div>
+											
+										</div>
+										<div class="details col-sm-6">
+											<h3 class="product-title"><a href="{% url 'product:product_detail' order1.0.id %}">{{ order1.0.name }}</a></h3>
+											{% if order1.0.offer > 0 %}
+												<h4 class="price">Price: <span>Rs. {{order1.0.price|get_discounted_price:order1.0.offer}}</span></h4>
+											{% else %}
+												<h4 class="price">Price: <span>Rs. {{order1.0.price}}</span></h4>
+											{% endif %}
+											{% ifnotequal order1.2  "None" %}
+												<h5 class="sizes">size: {{order1.2}}
+												</h5>
+											{% endifnotequal %}
+											<h5 class="colors">Quantity: {{order1.1}}
+											</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				{% endfor %}
+			</div>
+			<br>
+			
+			<hr>
+			<div>
+				<address>
+			 		<strong>Shipped To:</strong><br>
+			 		<p style="font-size:19px;color:brown">{{ order.2.name }}</p>
+					{{ order.2.street_address }} <br>
+					{{ order.2.state_choice }}, India<br>
+					{{ order.2.pincode }}
+				</address>
+			</div>
+			<div>
+				<p><strong>Total Amount : {{order.1}} </strong></p>
+			</div>
+			<div>
+				<p><strong>Ordered Date : {{order.4}} </strong></p>
+			</div>
+			<div>
+				{% ifnotequal order.6 "Cancelled" %}
+					<p><strong>Expected Delivery Date : {{order.5}} </strong></p>
+				{% endifnotequal %}
+			</div>
+			<div>
+				{% ifnotequal order.6 "Cancelled" %}
+					<p style="color:green"><strong>Staus : {{ order.7|get_order_status }} </strong></p>
+				{% else %}
+					<p style="color:red"><strong>Status : {{order.6}} </strong></p>
+				{% endifnotequal %}
+			</div>
+			<div>
+				<a href="{% url 'usercart:cancel_order' order.7  %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel Order</a>
+			</div>
+		</div>
+	{% endfor %}
+{% else %}
+	<div align="center" style="margin-top:40px"><img  src="{% static 'usercart/images/emptyorder.png' %}" /></div>
+	<h3 style="color:blue;font-size:16px" align="center">Sorry! {{request.user.name}} You haven't order anything from E-cart</h3>
+	<hr>
+	<a href="{% url 'product:home' %}" class="btn btn-primary" ><i class="fa fa-angle-left"></i> Continue Shopping </a>
+{% endif %}
+{% endblock %}

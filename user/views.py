@@ -3,8 +3,8 @@ from django.http.response import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib import messages
-from .models import User
-from .forms import RegisterUserForm
+from .models import User,Address
+from .forms import RegisterUserForm,RegisterAddress
 
 
 def user_login(request):
@@ -53,3 +53,28 @@ def register(request):
         messages.warning(request, "User has already registered please login")
         return redirect('user:user_login')
     return redirect('product:home')
+
+
+def manage_address(request):
+    form = RegisterAddress()
+    address_list = Address.objects.filter(user = request.user)
+    if request.method == "POST":
+        form = RegisterAddress( request.POST )
+        address = form.save(commit = False)
+        address.user = request.user
+        address.save()
+        return redirect('user:manage_address')
+    context = {
+        'form':form,
+        'address_list':address_list,
+        }
+    return render(request,'user/manage_address.html',context=context)
+
+def delete_address(request,address_id):
+    Address.objects.filter(id = int(address_id)).first().delete()
+    return redirect('user:manage_address')
+    
+def contact_support(request):
+    if request.method == "POST":
+        print("Successfully Received")
+    return render(request,'user/contact_support.html')

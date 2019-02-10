@@ -13,4 +13,6 @@ urlpatterns = [
    url('^removecartproduct/(?P<product_id>[0-9]+)/$',views.remove_cart_product,name="remove_cart_product"),
    url('^removewishlistproduct/(?P<product_id>[0-9]+)/$',views.remove_wishlist_product,name="remove_wishlist_product"),
    url('^checkout/$',views.checkout,name="checkout"),
+   url('^myorder/$',views.myorder,name="myorder"),
+   url('^cancel_order/(?P<order_id>[0-9]+)/$',views.cancel_order,name="cancel_order"),
 ]

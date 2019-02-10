@@ -6,7 +6,39 @@ from unicodedata import category
 from django.db.models import Q
 
 def home(request):
-    return render(request,'product/home.html')
+    womens_product = []
+    womens_product.append(Clothing.objects.filter(gender='F',category__iexact='Top').first())
+    womens_product.append(Clothing.objects.filter(gender='F',category__iexact='Jeans').first())
+    womens_product.append(Clothing.objects.filter(gender='F',category__iexact='Trousers').first())
+    womens_product.append(Clothing.objects.filter(gender='F',category__iexact='Kurti').first())
+    mens_product = []
+    mens_product.append(Clothing.objects.filter(gender='M',category__iexact='T-Shirt').first())
+    mens_product.append(Clothing.objects.filter(gender='M',category__iexact='Blazzers').first())
+    mens_product.append(Clothing.objects.filter(gender='M',category__iexact='Shirt1').first())
+    mens_product.append(Clothing.objects.filter(gender='M',category__iexact='Jeans').first())
+    mobile_product = []
+    mobile_product.append(Electronics.objects.filter(sub_category='Mobiles').first())
+    mobile_product.append(Electronics.objects.filter(sub_category='CasesCovers').first())
+    mobile_product.append(Electronics.objects.filter(sub_category='PowerBanks').first())
+    mobile_product.append(Electronics.objects.filter(sub_category='Tablets').first())
+    computer_product = []
+    computer_product.append(Electronics.objects.filter(sub_category='Computer').first())
+    computer_product.append(Electronics.objects.filter(sub_category='KeyboardMouse').first())
+    computer_product.append(Electronics.objects.filter(sub_category='Laptops').first())
+    computer_product.append(Electronics.objects.filter(sub_category='PrintersScanners').first())
+    home_appliance_product = []
+    home_appliance_product.append(Electronics.objects.filter(sub_category='Television').first())
+    home_appliance_product.append(Electronics.objects.filter(sub_category='Speakers').first())
+    home_appliance_product.append(Electronics.objects.filter(sub_category='MicrowaveIron').first())
+    home_appliance_product.append(Electronics.objects.filter(sub_category='Furniture').first())
+    context = {
+        'womens_product':womens_product,
+        'mens_product':mens_product,
+        'mobile_product':mobile_product,
+        'computer_product':computer_product,
+        'home_appliance_product':home_appliance_product, 
+        }
+    return render(request,'product/home.html',context=context)
 
 
 def mens_product(request):
@@ -159,4 +191,33 @@ def write_reviews(request,product_id):
     else:
         messages.warning(request,"Please login")
         return redirect("user:user_login")
+
+
+def search_product(request):
+    question = request.POST['question']
+    product =  Clothing.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
+                                        | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
+                                        )
+    print(product)
+    footwear = Footwear.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
+                                        | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
+                                        | Q(gender__icontains = question))
+    print(footwear)
+    accessories = Accessories.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
+                                        | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
+                                        | Q(gender__icontains = question))
+    print(accessories)
+    electrnoic_product = Electronics.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
+                                        | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
+                                        )
+    print(electrnoic_product)
+    product_list = product.union(footwear,accessories)
+
+    print(product_list)
+    context = {
+        'product_list':product_list,
+        'electrnoic_product':electrnoic_product,
+        }
+    return render(request,'product/search_product.html',context=context)
+
 

@@ -15,7 +15,47 @@
   	<!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-  	
+<style>
+.dropbtn {
+  background-color: #3A5FCD;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  margin-top:4px;
+  font-weight:bold;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #286EA8;}
+
+#myNavbar li a:hover {background-color: #286EA8;}
+
+</style>
 </head>
 <body>
 <header>
@@ -31,17 +71,26 @@
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	    	<div class=search-container">
-		      <form class="navbar-form navbar-left" role="search" method="post" action="#">
+		      <form class="navbar-form navbar-left" role="search" method="post" action="{% url 'product:search_product' %}">
 		      			{% csrf_token %}
 		                <div class="form-group">
-		                    <input type="text" style="padding: 6px;margin-top: 5px;font-size: 17px;border: 1px solid grey;" placeholder="Search for products and more .." class="form-control" name="q" value="" size=50>
+		                    <input type="text" style="padding: 6px;margin-top: 5px;font-size: 17px;border-radius:0px;border: None;" placeholder="Search for products and more .." class="form-control" name="question" value="" size=50 required>
 		                </div>
-		                <button type="submit" style="float: right;padding: 6px 10px;margin-top: 5.5px;margin-right: 16px;background: #ddd;font-size: 12px;border: none;cursor: pointer;color:#0066ff;background-color:white"><span class="glyphicon glyphicon-search" style="font-size:15px"></span></button>
+		                <button type="submit" style="float: right;padding: 6px 10px;margin-top: 5px;margin-right: 16px;border-radius:0px;border: None;background: #ddd;font-size: 16px;border: none;cursor: pointer;color:#0066ff;background-color:white"><span class="glyphicon glyphicon-search" style="font-size:15px"></span></button>
 		      </form>
 		    </div>
 	      <ul class="nav navbar-nav navbar-right" style="margin-right:20px">
 	      	 {% if request.user.is_authenticated %}
-		        <li><a href="#" style="color:#0066ff;font-size:17px;font-weight: bold;margin-top:5px;color:white">{{ request.user.name }}</a></li>
+		        <li>
+			        <div class="dropdown">
+					  <button class="dropbtn">{{ request.user.name }}</button>
+					  <div class="dropdown-content">
+					    <a href="{% url 'user:manage_address' %}"><span class="glyphicon glyphicon-user"></span>&nbsp&nbsp My Profile</a>
+					    <a href="{% url 'usercart:myorder' %}"><span class="glyphicon glyphicon-briefcase"></span>&nbsp&nbsp My Orders</a>
+					    <a href="{% url 'user:contact_support' %}"><span class="glyphicon glyphicon-earphone"></span>&nbsp&nbsp Contact Support</a>
+					  </div>
+					</div>
+				</li>
 		     	<li><a href="{% url 'usercart:wishlist_view' %}" data-toggle="tooltip" title="Wishlist"><span class="glyphicon glyphicon-heart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_wishlist_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_wishlist_value }}</span>{% endif %}</a></li>
 		     	<li><a href="{% url 'usercart:cart_view' %}" data-toggle="tooltip" title="Cart"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 20px;color:white;margin-top:4px"></span>{% if request.user|get_user_cart_value  > 0 %}<span class="badge badge-danger" style="background-color:white;font-size:10px;color:black">{{ request.user|get_user_cart_value }}</span>{% endif %}</a></li>
 		        <li><a href="{% url 'user:user_logout' %}" data-toggle="tooltip" title="Logout"><span class="glyphicon glyphicon-off" style="font-size: 20px;color:white;margin-top:4px"></span></a></li>    
@@ -58,7 +107,7 @@
 	
 	<nav class="navbar" style="margin-bottom:0px;height:18px;background-color:white">
 	  <div class="container-fluid">
-	    <div class="collapse navbar-collapse" id="myNavbar">
+	    <div class="collapse navbar-collapse">
 	      <ul class="nav navbar-nav" style="margin-top:10px;margin-bottom:0px;margin-left:30px">
 		        <li ><a href="{% url 'product:electronics_product' 'ALL' %}" style="font-size:15px;font-weight:650">Electronics</a></li>
 		        <li ><a href="{% url 'product:tv_appliance_product' 'ALL' %}" style="font-size:15px;font-weight:650">TVs & Appliances</a></li>

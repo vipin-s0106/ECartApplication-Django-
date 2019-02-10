@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
-from .models import Mycart,MyOrder,Wishlist
+from .models import Mycart,Wishlist
 from django.contrib import messages
 from product.models import Accessories,Clothing,Electronics,Footwear,Product
 from itertools import product
+from payment.models import OrderItem
 
 def add_to_cart(request,product_id):
     if request.user.is_authenticated:
@@ -96,7 +97,10 @@ def checkout(request):
     #store the Product Details to use during Payment Process and After Successfull use in MyOrder Page
     product_details = {}
     for cart_product in products_in_cart:
-        product_details.update({cart_product.id:request.POST['quantity'+str(cart_product.product.id)]})  #product.id = Mycart ID using this we can access size and product details
+        if cart_product.size != None:
+            product_details.update({cart_product.id:str(cart_product.product.id)+":"+request.POST['quantity'+str(cart_product.product.id)]+":"+cart_product.size})  #product.id = Mycart ID using this we can access size and product details
+        else:
+            product_details.update({cart_product.id:str(cart_product.product.id)+":"+request.POST['quantity'+str(cart_product.product.id)]+":None"})
     request.session['product_details'] = product_details
      
     #print(request.session['total_amount'],request.session['product_details']) 
@@ -104,6 +108,43 @@ def checkout(request):
     return render(request,'usercart/checkout.html',context=context)
 
 
+def myorder(request):
+    orders = OrderItem.objects.filter(user = request.user).order_by('-order_date')
+    Final_Orders = []
+    for order in orders:
+        '''
+        product_order_details sequence details 
+        [[product_object,quantity,size],total_amount,address_object,transaction_type,order_date,deliver_date,status],
+        '''
+        product_total_orders = []
+        product_order_details = []
+        product_object_details = []
+        for product_detal in order.product_ids_details.split(","):
+            product_object_details = []
+            product_object_details.append(Product.objects.filter(id = int(product_detal.split(":")[0])).first())
+            product_object_details.append(product_detal.split(":")[1])
+            product_object_details.append(product_detal.split(":")[2])
+            product_order_details.append(product_object_details)
+        product_total_orders.append(product_order_details)
+        product_total_orders.append(order.total_amount)
+        product_total_orders.append(order.address)
+        product_total_orders.append(order.transaction_type)
+        product_total_orders.append(order.order_date)
+        product_total_orders.append(order.deliver_date)
+        product_total_orders.append(order.status)
+        product_total_orders.append(order.id)
+        Final_Orders.append(product_total_orders)
+    context = {
+        'Final_Orders':Final_Orders
+        }
+    return render(request,"usercart/myorder.html",context=context)
+
+
+def cancel_order(request,order_id):
+    order = OrderItem.objects.filter(id = order_id).first()
+    order.status = "Cancelled"
+    order.save()
+    return redirect('usercart:myorder')
 
 
 

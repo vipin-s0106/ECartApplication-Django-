@@ -86,7 +86,7 @@
 {% block body %}
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav id="sidebar">
+    <nav id="sidebar" style="background-color: #FDFDFB">
         <div class="sidebar-header">
             <h3 style="margin-left:10px;font-size:30px;color:#1C8C88"><span class="glyphicon glyphicon-plus" style="font-size:20px"></span>&nbspCategories</h3>
         </div>
@@ -235,7 +235,7 @@
 				                {% endif %}
 			                </div>
 			            
-			                <div class="product-content">
+			                <div class="product-content" >
 			                    <h3 class="title"><a href="#">{{ product.product.name }}</a></h3>
 			                    {% if product.product.offer > 0 %}
 				                    <div class="price">Rs. {{ product.product.price|get_discounted_price:product.product.offer }}
