@@ -4,6 +4,7 @@ from django.contrib import messages
 from .forms import CommentForm
 from unicodedata import category
 from django.db.models import Q
+from django.core.mail import EmailMessage
 
 def home(request):
     womens_product = []
@@ -46,6 +47,19 @@ def mens_product(request):
     accessories_product = Accessories.objects.filter(gender='M')
     footwear_product = Footwear.objects.filter(gender = "M")
     products = clothing_product.union(accessories_product,footwear_product)
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            clothing_product = Clothing.objects.filter(gender = "M",brand__in = brand)
+            accessories_product = Accessories.objects.filter(gender='M',brand__in = brand)
+            footwear_product = Footwear.objects.filter(gender = "M",brand__in = brand)
+            products = clothing_product.union(accessories_product,footwear_product)
+        if len(color) > 0:
+            clothing_product = Clothing.objects.filter(gender = "M",color__in = color)
+            accessories_product = Accessories.objects.filter(gender='M',color__in = color)
+            footwear_product = Footwear.objects.filter(gender = "M",color__in = color)
+            products = clothing_product.union(accessories_product,footwear_product)
     context = {'products':products
                 }
     return render(request,'product/mens_product.html',context=context)
@@ -53,6 +67,14 @@ def mens_product(request):
 
 def mens_shoes_product(request):
     products = Footwear.objects.filter(gender = 'M')
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
+        if len(color) > 0:
+            products = products.filter(color__in = color)
+            
     context = {'products':products
                 }
     return render(request,'product/mens_product.html',context=context)
@@ -62,6 +84,13 @@ def mens_wear_product(request,wear_category):
     print(wear_category)
     products = Clothing.objects.filter(gender = 'M', category__icontains = wear_category)
     #print(products)
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
+        if len(color) > 0:
+            products = products.filter(color__in = color)
     context = {'products':products
                 }
     return render(request,'product/mens_product.html',context=context)
@@ -70,6 +99,13 @@ def mens_wear_product(request,wear_category):
 def mens_accessories_product(request,wear_category):
     products = Accessories.objects.filter(Q(category__icontains = wear_category) | Q(sub_category__icontains = wear_category))
     products = products.filter(gender = 'M')
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
+        if len(color) > 0:
+            products = products.filter(color__in = color)
     context = {'products':products
                 }
     return render(request,'product/mens_product.html',context=context)
@@ -80,6 +116,19 @@ def womens_product(request):
     accessories_product = Accessories.objects.filter(gender='F')
     footwear_product = Footwear.objects.filter(gender = "F")
     products = clothing_product.union(accessories_product,footwear_product)
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            clothing_product = Clothing.objects.filter(gender = "F",brand__in = brand)
+            accessories_product = Accessories.objects.filter(gender='F',brand__in = brand)
+            footwear_product = Footwear.objects.filter(gender = "F",brand__in = brand)
+            products = clothing_product.union(accessories_product,footwear_product)
+        if len(color) > 0:
+            clothing_product = Clothing.objects.filter(gender = "F",color__in = color)
+            accessories_product = Accessories.objects.filter(gender='F',color__in = color)
+            footwear_product = Footwear.objects.filter(gender = "F",color__in = color)
+            products = clothing_product.union(accessories_product,footwear_product)
     context = {'products':products
                 }
     return render(request,'product/womens_product.html',context=context)
@@ -87,6 +136,13 @@ def womens_product(request):
 
 def womens_shoes_product(request):
     products = Footwear.objects.filter(gender = 'F')
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
+        if len(color) > 0:
+            products = products.filter(color__in = color)
     context = {'products':products
                 }
     return render(request,'product/womens_product.html',context=context)
@@ -95,6 +151,13 @@ def womens_shoes_product(request):
 def womens_wear_product(request,wear_category):
     products = Clothing.objects.filter(gender = 'F', category__icontains = wear_category)
     #print(products)
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
+        if len(color) > 0:
+            products = products.filter(color__in = color)
     context = {'products':products
                 }
     return render(request,'product/womens_product.html',context=context)
@@ -103,6 +166,13 @@ def womens_wear_product(request,wear_category):
 def womens_accessories_product(request,wear_category):
     products = Accessories.objects.filter(Q(category__icontains = wear_category) | Q(sub_category__icontains = wear_category))
     products = products.filter(gender = 'F')
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')
+        color = request.POST.getlist('color')
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
+        if len(color) > 0:
+            products = products.filter(color__in = color)
     context = {'products':products
                 }
     return render(request,'product/womens_product.html',context=context)
@@ -113,6 +183,16 @@ def electronics_product(request,sub_category):
         products = Electronics.objects.filter(category__iexact = 'Mobiles and Laptops')
     else:
         products = Electronics.objects.filter(category__iexact = 'Mobiles and Laptops',sub_category__icontains = sub_category)
+    if request.method == "POST":
+        brand = request.POST.getlist('brand') 
+        storage = request.POST.getlist('size')  
+        ram = request.POST.getlist('ram')  
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
+        if len(storage) > 0:
+            products = products.filter(storage__in = storage)
+        if len(ram) > 0:
+            products = products.filter(ram__in = ram)
     context = {'products':products
                 }
     return render(request,'product/electronics_product.html',context=context)
@@ -123,6 +203,10 @@ def tv_appliance_product(request,sub_category):
         products = Electronics.objects.filter(category__iexact = 'Tv and Appliances')
     else:
         products = Electronics.objects.filter(category__iexact = 'Tv and Appliances',sub_category__icontains = sub_category)
+    if request.method == "POST":
+        brand = request.POST.getlist('brand')   
+        if len(brand) > 0:
+            products = products.filter(brand__in = brand)
     context = {'products':products
                 }
     return render(request,'product/tv_appliance_product.html',context=context)
@@ -198,26 +282,39 @@ def search_product(request):
     product =  Clothing.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
                                         | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
                                         )
-    print(product)
+    #print(product)
     footwear = Footwear.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
                                         | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
                                         | Q(gender__icontains = question))
-    print(footwear)
+    #print(footwear)
     accessories = Accessories.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
                                         | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
                                         | Q(gender__icontains = question))
-    print(accessories)
+    #print(accessories)
     electrnoic_product = Electronics.objects.filter(Q(product = Product.objects.filter(name__icontains = question).first()) | Q(brand__icontains = question)
                                         | Q(category__icontains = question) | Q(sub_category__icontains = question) | Q(description__icontains = question)
                                         )
-    print(electrnoic_product)
+    #print(electrnoic_product)
     product_list = product.union(footwear,accessories)
 
-    print(product_list)
+    #print(product_list)
     context = {
         'product_list':product_list,
         'electrnoic_product':electrnoic_product,
         }
     return render(request,'product/search_product.html',context=context)
+
+def more(request):
+    return render(request,'product/more.html')
+
+
+def contact(request):
+    print("Coming to Contact Views")
+    message = ""
+    if request.method == "POST":
+        message = "\nName : "+request.POST['name']+"\nEmail :  "+request.POST['email']+"\n\nMessage : \n\n"+request.POST['comments']
+        email = EmailMessage('ECartSupport', message, to=[request.POST['email']])
+        email.send()
+        return redirect('product:home')
 
 

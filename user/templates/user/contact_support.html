@@ -8,9 +8,9 @@
 }
 .contact-form{
     background: #fff;
-    margin-top: 10%;
+    margin-top: 5%;
     margin-bottom: 5%;
-    width: 70%;
+    width: 60%;
 }
 .contact-form .form-control{
     border-radius:1rem;
@@ -64,8 +64,11 @@
 <div class="container contact-form">
             <div class="contact-image">
                 <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
-            </div>
-            <form method="post">
+            </div >
+                {% if message|length > 0 %} 
+            		<div align="center" style="color:green"><strong> We have registered your request Support team will Contact with You</strong></div>
+            	{% endif %}
+            <form action="#" method="post">
             {% csrf_token %}
                 <h3>Drop Us a Message</h3>
                <div class="row">

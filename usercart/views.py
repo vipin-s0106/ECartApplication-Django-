@@ -108,6 +108,42 @@ def checkout(request):
     return render(request,'usercart/checkout.html',context=context)
 
 
+def buy_now(request,product_id):
+    if request.user.is_authenticated:
+        products_in_cart = Product.objects.filter(id = product_id)
+        quantity_list = {}
+        for product in products_in_cart:
+            quantity_list.update({product.id:'1'})
+        context = {
+                    'products_in_cart':products_in_cart,
+                    'quantity_list':quantity_list,
+            }
+        print(quantity_list,products_in_cart)
+        #calculating Total Amount and Store in session
+        total = 0
+        for product in products_in_cart:
+            total += round((product.price - (product.price*product.offer)/100))*(int(quantity_list.get(product.id)))
+        request.session['total_amount'] = total+60
+        print(request.session['total_amount'])
+        #store the Product Details to use during Payment Process and After Successfull use in MyOrder Page
+        product_details = {}
+        for cart_product in products_in_cart:
+            if 'size' in request.POST:
+                product_details.update({cart_product.id:str(cart_product.id)+":1:"+request.POST['size']})  #product.id = Mycart ID using this we can access size and product details
+            else:
+                product_details.update({cart_product.id:str(cart_product.id)+":1:None"})
+        request.session['product_details'] = product_details
+           
+        print(request.session['total_amount'],request.session['product_details']) 
+        
+        return render(request,'usercart/buy_now.html',context=context)
+    else:
+        messages.warning(request,"Please Login")
+        return redirect("user:user_login")
+
+
+
+
 def myorder(request):
     orders = OrderItem.objects.filter(user = request.user).order_by('-order_date')
     Final_Orders = []

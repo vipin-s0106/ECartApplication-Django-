@@ -116,7 +116,10 @@ def get_total(products,quantity_list):
 @register.filter(name = "get_order_status")    
 def get_order_status(order_id):
     order = OrderItem.objects.filter(id = int(order_id)).first()
-    if datetime.now().strftime('%Y-%m-%d') < (datetime.strptime(order.deliver_date, '%Y-%m-%d') + timedelta(days=3)).strftime('%Y-%m-%d'):
+    if datetime.now().strftime('%Y-%m-%d') < (datetime.strptime(order.deliver_date, '%Y-%m-%d') + timedelta(days=2)).strftime('%Y-%m-%d'):
+        order.status = "Order Packaging"
+        order.save() 
+    elif datetime.now().strftime('%Y-%m-%d') == (datetime.strptime(order.deliver_date, '%Y-%m-%d') + timedelta(days=2)).strftime('%Y-%m-%d'):
         order.status = "In Shipping"
         order.save()      
     elif datetime.now().strftime('%Y-%m-%d') >= order.deliver_date:

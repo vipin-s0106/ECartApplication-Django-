@@ -24,6 +24,7 @@
 		<div class="container" style="width:375px">
 			{% if messages %}
 			        	{% for message in messages %}
+			        	<br>
 			        		<div class="alert alert-{{ message.tags }}" style="color:red">
 			        			<p align="middle">{{ message }}</p>
 			        		</div>
@@ -50,7 +51,7 @@
 	</div>
 	<div class="modal-footer" style="background-color:#f9f9f9;">
 		<p >Not a member? <a href="#" id="myBtn1">Sign Up</a></p>
-		<p>Forgot <a href="#">Password</a></p>
+		<p>Forgot <a href="{% url 'user:password_reset' %}">Password</a></p>
 	</div> 
 </div>
 		

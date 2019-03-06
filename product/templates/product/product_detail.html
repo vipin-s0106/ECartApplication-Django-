@@ -187,11 +187,11 @@
 									</a>
 								</div>
 								<div class="btn-group wishlist">
-									<a href="#">
-										<button type="button" class="btn btn-lg" style="background-color:#F55B0F;color:white">
+									
+										<a href="{% url 'usercart:buy_now' product.product.id %}" type="button" class="btn btn-lg" style="background-color:#F55B0F;color:white">
 											<span class="glyphicon glyphicon-flash" style="color:white"></span>&nbsp BUY NOW 
-										</button>
-									</a>
+										</a>
+									
 								</div>
 							</form>
 						</div>

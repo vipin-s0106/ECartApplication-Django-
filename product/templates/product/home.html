@@ -97,23 +97,23 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="{% static 'product/images/add1.png' %}"  width="1366" height="768">  
+        <img src="{% static 'product/images/add1.PNG' %}"  width="1366" height="768">  
       </div>
 
       <div class="item">
-        <img src="{% static 'product/images/add2.png' %}"  width="1366" height="768">      
+        <img src="{% static 'product/images/add2.PNG' %}"  width="1366" height="768">      
       </div>
     
       <div class="item">
-        <img src="{% static 'product/images/add3.png' %}" width="1366" height="768">   
+        <img src="{% static 'product/images/add3.PNG' %}" width="1366" height="768">   
       </div>
       
       <div class="item">
-        <img src="{% static 'product/images/add4.png' %}"  width="1366" height="768">      
+        <img src="{% static 'product/images/add4.PNG' %}"  width="1366" height="768">      
       </div>
     
       <div class="item">
-        <img src="{% static 'product/images/add5.png' %}" width="1366" height="768">   
+        <img src="{% static 'product/images/add5.PNG' %}" width="1366" height="768">   
       </div>
       
       <div class="item">
@@ -332,34 +332,37 @@
 <img src="{% static 'product/images/shopping_area.jpg' %}" class="img-responsive" style="width:100%">
 
 <!-- Footer -->
-<footer class="text-center">
-<!-- Container (Contact Section) -->
-<div id="contact" class="container-fluid bg-grey" style="color:grey">
-  <h2 class="text-center" style="color:black">CONTACT</h2>
-  <div class="row">
-	    <div class="col-sm-5">
-	      <p>Contact us and we'll get back to you within 24 hours.</p>
-	      <p><span class="glyphicon glyphicon-map-marker"></span> Mumbai, India</p>
-	      <p><span class="glyphicon glyphicon-phone"></span> +91 82XXXXXXXX</p>
-	      <p><span class="glyphicon glyphicon-envelope"></span> abc@gmail.com</p>
-	    </div>
-	    <div class="col-sm-7 slideanim">
-	      <div class="row">
-	        <div class="col-sm-6 form-group">
-	          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-	        </div>
-	        <div class="col-sm-6 form-group">
-	          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-	        </div>
-	      </div>
-	      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
-	      <div class="row">
-	        <div class="col-sm-12 form-group">
-	          <button class="btn btn-default pull-right" type="submit">Send</button>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-</footer>
+<form method="post" action="{% url 'product:contact' %}">
+	{% csrf_token %}
+	<footer class="text-center">
+	<!-- Container (Contact Section) -->
+	<div id="contact" class="container-fluid bg-grey" style="color:grey">
+	  <h2 class="text-center" style="color:black">CONTACT</h2>
+	  <div class="row">
+		    <div class="col-sm-5">
+		      <p>Contact us and we'll get back to you within 24 hours.</p>
+		      <p><span class="glyphicon glyphicon-map-marker"></span> Mumbai, India</p>
+		      <p><span class="glyphicon glyphicon-phone"></span> +91 82XXXXXXXX</p>
+		      <p><span class="glyphicon glyphicon-envelope"></span> abc@gmail.com</p>
+		    </div>
+		    <div class="col-sm-7 slideanim">
+		      <div class="row">
+		        <div class="col-sm-6 form-group">
+		          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+		        </div>
+		        <div class="col-sm-6 form-group">
+		          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+		        </div>
+		      </div>
+		      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+		      <div class="row">
+		        <div class="col-sm-12 form-group">
+		          <button type="submit" class="btn btn-default pull-right">Send</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</footer>
+</form>
 {% endblock %}

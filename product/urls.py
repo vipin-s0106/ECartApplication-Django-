@@ -6,6 +6,8 @@ app_name = 'product'
 
 urlpatterns = [
    url('^$',views.home,name="home"),
+   url('^contact/$',views.contact,name="contact"),
+   url('^more/$',views.more,name="more"),
    url('^mens_product/$',views.mens_product,name="mens_product"),
    url('^womens_product/$',views.womens_product,name="womens_product"),
    url('^mens_shoes/$',views.mens_shoes_product,name="mens_shoes_product"),

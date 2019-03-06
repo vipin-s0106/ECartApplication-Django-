@@ -1,0 +1,114 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block cssloading %}
+<style>
+
+</style>
+{% endblock %}
+{% block body %}
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for product in products_in_cart %}
+	                    <tr>
+	                        <td class="col-sm-8 col-md-6">
+	                        <div class="media">
+	                            <a class="thumbnail pull-left" href="{% url 'product:product_detail' product.id %}"> <img class="media-object" src="{{ product.product_image1.url }}" style="width: 72px; height: 72px;"> </a>
+	                            <div class="media-body">
+	                                <h4 class="media-heading" style="margin-left:20px"><a href="{% url 'product:product_detail' product.id %}">{{ product.name }}</a></h4>
+	                                <div class="product-card-offer" style="margin-left:20px"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp Extra {{ product.card_discount }}% off with Axis Bank Buzz Credit Card</div>
+									<div class="product-emi-offer" style="margin-left:20px"><span class="glyphicon glyphicon-tags" style="color:green"></span>&nbsp EMI {{ product.emi_discount }}% discount on Bajaj Finserv EMI Card</div>
+	                            </div>
+	                        </div></td>
+	                        <td class="col-sm-1 col-md-1" style="text-align: center">
+	                        <p><strong>1</strong></p>
+	                        </td>
+	                        <td class="col-sm-1 col-md-1 text-center">
+		                        {% if product.offer > 0 %}
+				                    <div class="product-price"><strong>Rs. {{ product.price|get_discounted_price:product.offer }}</strong>
+				                    </div>
+					            {% else %}
+					                <div class="product-price"><strong>Rs. {{ product.price|floatformat }}</strong></div>
+					            {% endif %}
+				            </td>
+	                        <td class="col-sm-1 col-md-1 text-center">
+		                        {% if product.offer > 0 %}
+				                    <div class="product-price"><strong>Rs. {{ product.price|get_discounted_price:product.offer }}</strong>
+				                    </div>
+					            {% else %}
+					                <div class="product-price"><strong>Rs. {{ product.price|floatformat }}</strong></div>
+					            {% endif %}
+				            </td>
+	                        <td class="col-sm-1 col-md-1">
+	                        </td>
+	                    </tr>
+	                 <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h5>Subtotal</h5></td>
+                         <td class="text-right">
+		                        {% if product.offer > 0 %}
+				                    <div class="product-price"><strong>Rs. {{ product.price|get_discounted_price:product.offer }}</strong>
+				                    </div>
+					            {% else %}
+					                <div class="product-price"><strong>Rs. {{ product.price|floatformat }}</strong></div>
+					            {% endif %}
+				         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h5>Estimated shipping</h5></td>
+                        <td class="text-right"><h5><strong>Rs. 60</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right">
+		                        {% if product.offer > 0 %}
+				                    <div class="product-price"><strong>Rs. {{ product.price|get_discounted_price:product.offer|add:60 }}</strong>
+				                    </div>
+					            {% else %}
+					                <div class="product-price"><strong>Rs. {{ product.price|floatformat }}</strong></div>
+					            {% endif %}
+				         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        <a href="{% url 'product:product_detail' product.id %}" type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span> Cancel
+                        </a></td>
+                        <td>
+                        <a href="{% url 'payment:create_order' 'buynow' %}" type="button" class="btn btn-success">
+                            Pay now <span class="glyphicon glyphicon-ok"></span>
+                        </a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

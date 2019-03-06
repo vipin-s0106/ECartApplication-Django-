@@ -76,7 +76,7 @@
 		                <div class="form-group">
 		                    <input type="text" style="padding: 6px;margin-top: 5px;font-size: 17px;border-radius:0px;border: None;" placeholder="Search for products and more .." class="form-control" name="question" value="" size=50 required>
 		                </div>
-		                <button type="submit" style="float: right;padding: 6px 10px;margin-top: 5px;margin-right: 16px;border-radius:0px;border: None;background: #ddd;font-size: 16px;border: none;cursor: pointer;color:#0066ff;background-color:white"><span class="glyphicon glyphicon-search" style="font-size:15px"></span></button>
+		                <button type="submit" style="float: right;padding: 6px 10px;margin-top: 5px;margin-right: 16px;border-radius:0px;border: None;background: #ddd;font-size: 16px;border: none;cursor: pointer;color:#0066ff;background-color:#E2CF14"><span class="glyphicon glyphicon-search" style="font-size:15px"></span></button>
 		      </form>
 		    </div>
 	      <ul class="nav navbar-nav navbar-right" style="margin-right:20px">
@@ -96,7 +96,7 @@
 		        <li><a href="{% url 'user:user_logout' %}" data-toggle="tooltip" title="Logout"><span class="glyphicon glyphicon-off" style="font-size: 20px;color:white;margin-top:4px"></span></a></li>    
 		     {% else %}	     
 		     	<li><a href="{% url 'user:user_login' %}" id="myBtn" style="font-size:17px;font-weight: bold;margin-top:5px;font-family:Lucida Sans Unicode;color:white">Login & SignUp</a></li>
-		     	<li><a href="#" style="font-size:17px;font-weight: bold;margin-top:5px;font-family:Lucida Sans Unicode;color:white">More</a></li>
+		     	<li><a href="{% url 'product:more' %}" style="font-size:17px;font-weight: bold;margin-top:5px;font-family:Lucida Sans Unicode;color:white">More</a></li>
 		     {% endif %}
 	      </ul>
 	    </div>

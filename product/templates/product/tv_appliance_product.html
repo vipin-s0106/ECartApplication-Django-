@@ -119,13 +119,13 @@
         	<div>
         		<p style="margin-left:10px">Brand</p>
         		<div class="checkbox" style="margin-left:25px">
-        			<label><input type="checkbox" name="brand" value="Dell">LG</label>
+        			<label><input type="checkbox" name="brand" value="LG">LG</label>
         		</div>
         		<div class="checkbox" style="margin-left:25px">
-        			<label><input type="checkbox" name="brand" value="Acer">Panasonic</label>
+        			<label><input type="checkbox" name="brand" value="Panasonic">Panasonic</label>
         		</div>
         		<div class="checkbox" style="margin-left:25px">
-        			<label><input type="checkbox" name="brand" value="Lenevo">Sansui</label>
+        			<label><input type="checkbox" name="brand" value="Sansui">Sansui</label>
         		</div>
         		<div class="checkbox" style="margin-left:25px">
         			<label><input type="checkbox" name="brand" value="Samsung">Samsung</label>
@@ -134,16 +134,16 @@
         			<label><input type="checkbox" name="brand" value="MI">MI</label>
         		</div>
         		<div class="checkbox" style="margin-left:25px">
-        			<label><input type="checkbox" name="brand" value="Oneplus+">Philips</label>
+        			<label><input type="checkbox" name="brand" value="Philips">Philips</label>
         		</div>
         		<div class="checkbox" style="margin-left:25px">
-        			<label><input type="checkbox" name="brand" value="Oneplus+">iball</label>
+        			<label><input type="checkbox" name="brand" value="iball">iball</label>
         		</div>
         		<div class="checkbox" style="margin-left:25px">
-        			<label><input type="checkbox" name="brand" value="Oneplus+">Boat</label>
+        			<label><input type="checkbox" name="brand" value="Boat">Boat</label>
         		</div>
         		<div class="checkbox" style="margin-left:25px">
-        			<label><input type="checkbox" name="brand" value="Oneplus+">Intex</label>
+        			<label><input type="checkbox" name="brand" value="Intex">Intex</label>
         		</div>
         	</div>
         	<button type="submit" class="btn btn-md" style="background-color:#F55B0F;color:white;margin-left:10px;font-weight:bold;margin-top:10px;margin-bottom:10px">
@@ -175,7 +175,7 @@
 			                    <ul class="social">
 			                        <li><a href="{% url 'product:product_detail' product.product.id %}" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
 			                        <li><a href="{% url 'usercart:add_to_wishlist' product.product.id %}" data-tip="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
-			                        <li><a href="{% url 'usercart:add_to_cart' product.product.id %}" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+			                        <!--  <li><a href="{% url 'usercart:add_to_cart' product.product.id %}" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li> -->
 			                    </ul>
 			                    {% if product.product.offer > 0 %}
 				                    <span class="product-new-label">Offer</span>

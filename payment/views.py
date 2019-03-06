@@ -5,10 +5,11 @@ from django.db.models import Q
 from usercart.models import Mycart
 from user.models import Address
 from .models import OrderItem
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
-def create_order(request):
+def create_order(request,buying_option):
     address_list = Address.objects.filter(user = request.user)
     if request.method == "POST":
         address_id = request.POST['address']
@@ -27,8 +28,12 @@ def create_order(request):
             elif payment_mode == "cod":
                 orderitem.status = "Order Placed"
                 orderitem.save()
-                for product in Mycart.objects.all():
-                    product.delete()
+                if buying_option == "cart":
+                    for product in Mycart.objects.all():
+                        product.delete()
+                message = "Hello "+request.user.name+"! You order has been placed successfully\nFor More Details Please Click on Below Link\n\nhttp://127.0.0.1:8000/myorder/"
+                email = EmailMessage('Registeration Succesfull', message, to=[request.user.email])
+                email.send()
                 messages.success(request,"Your order has been placed successfully!")
                 return redirect('usercart:myorder')
             else:
