@@ -133,14 +133,3 @@ def resend_otp(request):
     mail = EmailMessage('ECart Password Reset', message, to=[request.session['email']])
     mail.send()
     return redirect('user:password_reset_done')
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

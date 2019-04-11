@@ -23,7 +23,7 @@ class Address(models.Model):
     street_address = models.TextField(('Street Address'),null=False)
     STATE_CHOICES = (
                     ('','--Select--'),
-                    ('Maharashtra', 'Mahashtra'),
+                    ('Maharashtra', 'Mahrashtra'),
                     ('Rajsthan', 'Rajsthan'),
                     ('Gujrat', 'Gujrat'),
                     ('Karnataka', 'Karnataka'),

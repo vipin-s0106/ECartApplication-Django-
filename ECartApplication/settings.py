@@ -44,6 +44,11 @@ INSTALLED_APPS = [
     'crispy_forms',
 ]
 
+
+
+
+
+
 #you have to define Swappable AUTH_USER_MODEL if you are creating Custom User model define the New Table name I used same as User
 AUTH_USER_MODEL = 'user.User'
 
@@ -134,7 +139,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vipinkumar.s@somaiya.edu'
-EMAIL_HOST_PASSWORD = '9869975312'
+EMAIL_HOST_PASSWORD = 'XXXXXXXXX'
 
 
 
