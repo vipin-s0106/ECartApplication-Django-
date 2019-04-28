@@ -6,6 +6,8 @@ from unicodedata import category
 from django.db.models import Q
 from django.core.mail import EmailMessage
 
+
+
 def home(request):
     womens_product = []
     womens_product.append(Clothing.objects.filter(gender='F',category__iexact='Top').first())

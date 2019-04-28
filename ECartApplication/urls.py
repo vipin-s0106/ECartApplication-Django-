@@ -26,6 +26,7 @@ urlpatterns = [
     url('^',include('product.urls',namespace ='product')),
     url('^',include('usercart.urls',namespace ='usercart')),
     url('^',include('payment.urls',namespace = 'payment')),
+    url('^',include('rest_app.urls',namespace = 'rest_app')),
 ]
 
 if settings.DEBUG:
