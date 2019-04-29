@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'rest_framework',
+    'rest_framework.authtoken',#added for create rest api which is accessible using only tokenid
 ]
 
 

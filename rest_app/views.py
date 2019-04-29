@@ -6,7 +6,7 @@ from .serializers import CustomerSerializer,CustomerSerializer1,ProductSerialize
 from django.http import JsonResponse
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from rest_framework.authentication import BasicAuthentication,SessionAuthentication
+from rest_framework.authentication import BasicAuthentication,SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 
 from rest_framework.views import APIView
@@ -18,6 +18,12 @@ from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+'''
+Example of ViewSet
+If we inherit GenericViewSet then we have to specify the mixins and models like 228 below code line
+If we only inherit ViewSet then we have to specify the get post put delete method like 145 code line
+If we inherit ModelViewSet then we have to just give the queryset and Serialzer class everything will handle by router
+'''
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -240,7 +246,7 @@ class ProductListView(generics.GenericAPIView,
 
     #here first it will check first class authntication i.e. session based so it will check wheathere session_id is passed or not
     # if first method not provided then it will go for second one i.e. Username password
-    authentication_classes = [SessionAuthentication,BasicAuthentication]
+    authentication_classes = [TokenAuthentication,SessionAuthentication,BasicAuthentication]
     #we have to define permission classes to make it effective
     permission_classes = [IsAuthenticated]
 
@@ -267,3 +273,38 @@ class ProductListView(generics.GenericAPIView,
 
     def delete(self,request,id=None):
         return self.destroy(self,request,id)
+
+
+
+
+
+
+'''
+
+Token Authentication Related all views
+
+'''
+from .serializers import LoginSerializer
+from django.contrib.auth import login,logout
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+
+class LoginView(APIView):
+    def post(self,request):
+        serializer = LoginSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request,user=user)
+        token,created = Token.objects.get_or_create(user=user)
+        return Response({"Token":token.key},status=200)
+
+
+
+class LogoutView(APIView):
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self,request):
+        #here we have to logout only from client site if we logout from server then it will logout from all the application
+        #where it is logged in so we will only use logout method
+        logout(request)
+        return Response({"Msg":"Successfully Logout"},status=204)

@@ -6,6 +6,11 @@ from . import views
 
 app_name = 'rest_app'
 
+'''
+Router urls will provide you extra functionality like create view delete by writing only one 
+viewSet below CustomerViewSet is wriiten using that we can create, delete,get customer details
+'''
+
 router = routers.DefaultRouter()
 router.register('all_customer',CustomerViewSet)
 router.register('all_customer_all_attribute',CustomerViewSet1)
@@ -20,4 +25,8 @@ urlpatterns = [
 
    url('^generics_api/product/$',ProductListView.as_view()),
    path('generics_api/product/<int:id>/',ProductListView.as_view()),
+
+   #Urls for TokenAuthentication so url will be for login and logout
+   path('api/login/',LoginView.as_view()),
+   path('api/logout/',LogoutView.as_view()),
 ]
