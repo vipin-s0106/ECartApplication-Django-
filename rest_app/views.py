@@ -16,6 +16,8 @@ from rest_framework import mixins
 
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter,SearchFilter
 
 # Create your views here.
 '''
@@ -108,12 +110,11 @@ def get_Product_deails(request,id):
         #here it is Json response so we don't required to tell that this is Json bcz it already in json
         return JsonResponse(serialzer.data)
     elif request.method == 'PUT':
-        #in order to test the rest api we have to use the Postman toll for Post Method
+        #in order to test the rest api we have to use the Postman tool for Post Method
 
         #in request.POST we will have the dictionary we have to parse the Dictionary in Json Format Data
         # for that we will use JsonParser of rest_framework.parser
         data = JSONParser().parse(request)
-
         serailzer = ProductSerializer(product,data=data,partial=True) # when we have to create new data then we have to pass like data=data
         # if you want to update something you have to pass like (data, data={'updated_column_name'='updated_value'}, partial=True)
         #here partial=True is written bcz if you don't write partial =True then for update you have to provide all required columns
@@ -209,7 +210,7 @@ API is already build we have to just specify the serialzer class and queryset
 '''
 
 '''
-in this we ghave to just specifiy the generics view and Different mixins for different operations
+in this we have to just specifiy the generics view and Different mixins for different operations
 
 we have to provide the slug also like serializer class, queryset,lookup_field
 lookup_field is required fro detailing purpose when work with single product
@@ -272,7 +273,7 @@ class ProductListView(generics.GenericAPIView,
         serializer.save()
 
     def delete(self,request,id=None):
-        return self.destroy(self,request,id)
+        return self.destroy(request,id)
 
 
 
@@ -280,9 +281,7 @@ class ProductListView(generics.GenericAPIView,
 
 
 '''
-
 Token Authentication Related all views
-
 '''
 from .serializers import LoginSerializer
 from django.contrib.auth import login,logout
@@ -296,11 +295,16 @@ class LoginView(APIView):
         user = serializer.validated_data['user']
         login(request,user=user)
         token,created = Token.objects.get_or_create(user=user)
+        '''
+        created will be true or false if new token get created then it will be true else
+        it will be false
+        '''
         return Response({"Token":token.key},status=200)
 
 
 
 class LogoutView(APIView):
+    #To check user is login or not so that we have to include TokenAuthentication
     authentication_classes = (TokenAuthentication,)
 
     def post(self,request):
@@ -308,3 +312,60 @@ class LogoutView(APIView):
         #where it is logged in so we will only use logout method
         logout(request)
         return Response({"Msg":"Successfully Logout"},status=204)
+
+
+
+'''
+Filter in Django Rest Framework
+
+if you have multiple user in databse but you want only active user that can acieve using filter
+
+Two to do the Filtering Condition
+1 - In Query we can provide the Filter condition
+2 - we can use third party libraries django-filter
+'''
+
+class GetProductHasPriceLessThan500(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+
+    '''
+    1 method - Using Get Queryset
+    '''
+    #This queryset will be reading data from URL and putting into the Querset as filter condition
+
+
+    # def get_queryset(self):
+    #     queryset = Product.objects.all()
+    #     price = self.request.query_params.get('price','')
+    #     if price:
+    #         queryset = queryset.filter(price__lte = int(price))
+    #     return queryset
+
+
+    '''
+    2 method - Using Django Filter Third party libraries
+    
+    in second method it won't work for < condition it will only work for == condition take exmaple of 499.0
+    
+    '''
+    queryset = Product.objects.all()
+
+    filter_backends = (DjangoFilterBackend,OrderingFilter,SearchFilter)
+    filter_fields = ('price',)
+
+    '''
+    Ordering Filter
+    '''
+    ordering_fields = ('name',)
+    '''
+    for testing we have to pass in url like  /filter_api/getProduct/?ordering=name
+    '''
+
+    '''
+    Search Field
+    '''
+    search_fields = ('name',)
+    '''
+        for testing we have to pass in url like  /filter_api/getProduct/?search=pants
+    '''

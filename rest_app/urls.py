@@ -29,4 +29,7 @@ urlpatterns = [
    #Urls for TokenAuthentication so url will be for login and logout
    path('api/login/',LoginView.as_view()),
    path('api/logout/',LogoutView.as_view()),
+
+   #Urls for Django Rest Filtering Condition
+   url('^filter_api/getProduct/$',GetProductHasPriceLessThan500.as_view()),
 ]
