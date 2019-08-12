@@ -1,0 +1,116 @@
+Link 'https://realpython.com/asynchronous-tasks-with-django-and-celery/'
+
+
+
+pip install celery==3.1.26.post2
+
+Step 1: Add celery.py
+
+from __future__ import absolute_import
+import os
+from celery import Celery
+from django.conf import settings
+
+# set the default Django settings module for the 'celery' program.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ECartApplication.settings')
+app = Celery('ECartApplication')
+
+# Using a string here means the worker will not have to
+# pickle the object when using Windows.
+app.config_from_object('django.conf:settings')
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print('Request: {0!r}'.format(self.request))
+	
+	
+	
+
+	
+Step 2: Import your new Celery app
+To ensure that the Celery app is loaded when Django starts, add the following code into the __init__.py file that sits next to your settings.py file:
+
+from __future__ import absolute_import
+
+# This will make sure the app is always imported when
+# Django starts so that shared_task will use this app.
+from .celery import app as celery_app
+
+
+
+Step 3 : Extract Redis Server
+
+Run the Redis Server
+Run the Redis CLI     Type PING it will respond to PONG
+
+
+
+
+Once Redis is up, add the following code to your settings.py file:
+
+# CELERY STUFF
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERY_TIMEZONE = 'India/Kolkata'
+
+
+
+pip install redis==2.10.6
+
+
+Now open CMD at project location
+and Run below command
+
+celery -A ECartApplication worker -l info
+if run close the task CTRL+C
+
+
+celery -A ECartApplication beat -l info
+if run close the task CTRL+C
+
+
+
+now Create task.py file in user app - 
+
+
+from django.core.mail import EmailMessage
+import time
+
+from celery import Celery
+app = Celery('user',broker='redis://localhost:6379')
+
+
+@app.task
+def send_email(to_email,message):
+    time1 = 1
+    while(time1 != 5):
+        print("Sending Email ",time1)
+        email = EmailMessage('Checking Asynchronous Task', message+" : "+str(time1), to=[to_email])
+        email.send()
+        time.sleep(1)
+        time1 += 1
+	
+	
+Now call the App into Userlogin views
+
+from .task import send_email
+
+print("sending for Queue")
+send_email.delay(request.user.email,"Email sent : ")
+print("sent for Queue")
+
+
+Now Run the Django Server
+Celery Server is running
+Now open Two CMD window to check log level info weather code is working or not
+celery -A ECartApplication worker -l info   in one Window
+celery -A ECartApplication beat -l info     in Second Window
+
+
+Now try to login and check the log
+

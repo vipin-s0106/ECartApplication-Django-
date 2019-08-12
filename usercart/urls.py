@@ -15,5 +15,6 @@ urlpatterns = [
    url('^checkout/$',views.checkout,name="checkout"),
    url('^buy_now/(?P<product_id>[0-9]+)/$',views.buy_now,name="buy_now"),
    url('^myorder/$',views.myorder,name="myorder"),
+   url('^view_order_graph/$',views.view_order_graph,name="view_order_graph"),
    url('^cancel_order/(?P<order_id>[0-9]+)/$',views.cancel_order,name="cancel_order"),
 ]

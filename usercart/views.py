@@ -5,6 +5,14 @@ from product.models import Accessories,Clothing,Electronics,Footwear,Product
 from itertools import product
 from payment.models import OrderItem
 
+#for graph plotting
+
+from matplotlib import pylab
+from pylab import *
+import PIL, PIL.Image
+from io import StringIO
+
+
 def add_to_cart(request,product_id):
     if request.user.is_authenticated:
         if Mycart.objects.filter(user=request.user,product = Product.objects.filter(id=product_id).first()).count() == 0:
@@ -171,7 +179,7 @@ def myorder(request):
         product_total_orders.append(order.id)
         Final_Orders.append(product_total_orders)
     context = {
-        'Final_Orders':Final_Orders
+        'Final_Orders':Final_Orders,
         }
     return render(request,"usercart/myorder.html",context=context)
 
@@ -181,6 +189,29 @@ def cancel_order(request,order_id):
     order.status = "Cancelled"
     order.save()
     return redirect('usercart:myorder')
+
+#******************** used matplot libreries *******************
+
+
+
+def view_order_graph(request):
+    t = arange(0.0, 2.0, 0.01)
+    s = sin(2 * pi * t)
+    plot(t, s, linewidth=1.0)
+
+    xlabel('time (s)')
+    ylabel('voltage (mV)')
+    title('About as simple as it gets, folks')
+    grid(True)
+
+    # Store image in a string buffer
+    buffer = StringIO.StringIO()
+    canvas = pylab.get_current_fig_manager().canvas
+    canvas.draw()
+    pilImage = PIL.Image.frombytes("RGB", canvas.get_width_height(), canvas.tostring_rgb())
+    pilImage.save(buffer, "PNG")
+    pylab.close()
+    return render(request,"usercart/plotting.html",buffer.getvalue(),content_type="image/png")
 
 
 

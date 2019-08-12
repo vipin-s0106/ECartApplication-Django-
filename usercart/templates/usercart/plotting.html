@@ -1,0 +1,6 @@
+{% extends 'product/base.html' %}
+{% load staticfiles %}
+{% load app_filter %}
+{% block body %}
+<img src="data:image/png;base64,{{graphic|safe}}">
+{% endblock %}

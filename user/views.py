@@ -8,15 +8,28 @@ from .forms import RegisterUserForm,RegisterAddress
 from django.core.mail import EmailMessage
 import random
 
+from .task import send_email
+
+
 
 def user_login(request):
     form = RegisterUserForm()
+
+    # Testing Middleware
+    print("Checking Middleware : Admin User") if request.admin_status else print("Checking Middleware : Not Admin User")
+
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
+            #written for to checking the Redis and Celery
+
+            # print("sending for Queue")
+            # send_email.delay(request.user.email, "Email sent : ")
+            # print("sent for Queue")
             return redirect('product:home')
         else:
             messages.warning(request,'Invalid Username/Password')
@@ -63,6 +76,10 @@ def register(request):
 def manage_address(request):
     form = RegisterAddress()
     address_list = Address.objects.filter(user = request.user)
+
+    # Testing Middleware
+    print("Checking Middleware : Admin User") if request.admin_status else print("Checking Middleware : Not Admin User")
+
     if request.method == "POST":
         form = RegisterAddress( request.POST )
         address = form.save(commit = False)

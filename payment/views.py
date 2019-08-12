@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from unicodedata import category
 from django.db.models import Q
 from usercart.models import Mycart
 from user.models import Address

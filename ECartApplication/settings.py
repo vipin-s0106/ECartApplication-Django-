@@ -49,6 +49,15 @@ INSTALLED_APPS = [
 ]
 
 
+# CELERY STUFF
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERY_TIMEZONE = 'India/Kolkata'
+
+
 
 
 
@@ -69,9 +78,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user.middlewares.AdminMiddleware',
 ]
 
 ROOT_URLCONF = 'ECartApplication.urls'
+
+'''
+Adding our Context process present in the user app
+'''
 
 TEMPLATES = [
     {
@@ -84,6 +98,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'product.context_processors.product_count',
             ],
         },
     },
@@ -143,7 +158,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vipinkumar.s@somaiya.edu'
-EMAIL_HOST_PASSWORD = 'XXXXXXXXX'
+EMAIL_HOST_PASSWORD = 'XXXXXXXXXX'
 
 
 
