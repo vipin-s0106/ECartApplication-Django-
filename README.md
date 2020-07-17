@@ -1,8 +1,8 @@
-# Ecart 
+# QuickEcart 
 
 ### Introduction
 
-This application is a cloned **Flipkart** Ecommerce Web App. Following are the some features of **Ecart**
+This application is a cloned **Flipkart** Ecommerce Web App. Following are the some features of **QuickEcart**
 - User can login/register with the application
 - User can search the products
 - Home will show all aggregated prducts from each category
@@ -62,29 +62,55 @@ https://quickecart.herokuapp.com/
 
 
 ![Screenshot](Snippets/1.PNG)
+
 ![Screenshot](Snippets/2.PNG)
+
 ![Screenshot](Snippets/3.PNG)
+
 ![Screenshot](Snippets/4.PNG)
+
 ![Screenshot](Snippets/5.PNG)
+
 ![Screenshot](Snippets/6.PNG)
+
 ![Screenshot](Snippets/7.PNG)
+
 ![Screenshot](Snippets/8.PNG)
+
 ![Screenshot](Snippets/9.PNG)
+
 ![Screenshot](Snippets/10.PNG)
+
 ![Screenshot](Snippets/11.PNG)
+
 ![Screenshot](Snippets/12.PNG)
+
 ![Screenshot](Snippets/13.PNG)
+
 ![Screenshot](Snippets/14.PNG)
+
 ![Screenshot](Snippets/15.PNG)
+
 ![Screenshot](Snippets/16.PNG)
+
 ![Screenshot](Snippets/17.PNG)
+
 ![Screenshot](Snippets/18.PNG)
+
 ![Screenshot](Snippets/19.PNG)
+
 ![Screenshot](Snippets/20.PNG)
+
 ![Screenshot](Snippets/21.PNG)
+
 ![Screenshot](Snippets/22.PNG)
+
 ![Screenshot](Snippets/23.PNG)
+
 ![Screenshot](Snippets/24.PNG)
+
 ![Screenshot](Snippets/25.PNG)
+
 ![Screenshot](Snippets/26.PNG)
+
 ![Screenshot](Snippets/27.PNG)
