@@ -44,7 +44,7 @@ PySocks==1.6.8
 python-dateutil==2.7.3
 pytz==2018.5
 queuelib==1.5.0
-requests==2.19.1
+requests==2.20.0
 sanction==0.4.1
 service-identity==17.0.0
 six==1.11.0
