@@ -51,7 +51,7 @@ six==1.11.0
 South==1.0.2
 SQLAlchemy==1.2.12
 textmagic==2.0.3
-urllib3==1.23
+urllib3==1.26.5
 w3lib==1.19.0
 Werkzeug==0.14.1
 whitenoise==2.0.6
